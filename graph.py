@@ -26,3 +26,28 @@ class Graph:
                 
     def addEdge(self, frm, to, cost=0):
         self.adjMatrix[self.getVertex(frm)][self.getVertex(to)] = cost
+        
+    def getVertices(self):
+        vertices = []
+        for v in range(0, self.numVertices):
+            vertices.append(self.vertices[v].getVertexId())
+        return vertices
+        
+    def getEdges(self):
+        edges = []
+        for v in range(0, self.numVertices):
+            for u in range(0, self.numVertices):
+                if self.adjMatrix[u][v] != -1:
+                    vid = self.vertices[v].getVertexId()
+                    wid = self.vertices[u].getVertexId()
+                    edges.append((vid, wid, self.adjMatrix[u][v]))
+        return edges
+    
+    def printMatrix(self):
+        for u in range(0, self.numVertices):
+            row = []
+            for v in range(0, self.numVertices):
+                row.append(self.adjMatrix[u][v])
+            print(row)
+            
+    
