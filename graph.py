@@ -18,11 +18,12 @@ class Graph:
             self.vertices[vtx].setVertexId(id)
             
     def getVertex(self, n):
+        vtx = -1
         for v in range(0, self.numVertices):
+            print('value of v now is: ',v)
             if n == self.vertices[v].getVertexId():
-                return v
-            else:
-                return -1
+                vtx = v
+        return vtx
                 
     def addEdge(self, frm, to, cost=0):
         self.adjMatrix[self.getVertex(frm)][self.getVertex(to)] = cost
