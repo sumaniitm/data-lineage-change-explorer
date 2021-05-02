@@ -20,7 +20,6 @@ class Graph:
     def getVertex(self, n):
         vtx = -1
         for v in range(0, self.numVertices):
-            print('value of v now is: ',v)
             if n == self.vertices[v].getVertexId():
                 vtx = v
         return vtx
