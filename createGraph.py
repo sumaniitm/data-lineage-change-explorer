@@ -21,13 +21,18 @@ class createGraph:
         toDict=[]
         for e in range(0,len(listOfEdges)):
             frm,to,cost = listOfEdges[e]
-            fromDict.append(frm)
-            toDict.append(to)
-            if (fromDict.count(to) > 0 and toDict.count(frm) > 0):
-                print("only directed graph is allowed")
-                return
+            # keeping a track of the starting and ending vertices of the edges. Is this the most optimal storage ??
+            if (listOfVertices.count(frm) == 0 or listOfVertices.count(to) == 0):
+                print("any one of the provided vertex is not in the list of vertices, this edge won't be created")
             else:
-                g.addEdge(frm, to, cost)
+                fromDict.append(frm)
+                toDict.append(to)
+                #ensure only directed graphs are allowed. Is count the most optimal way of doing this ??
+                if (fromDict.count(to) > 0 and toDict.count(frm) > 0):
+                    print("only directed graph is allowed")
+                    return
+                else:
+                    g.addEdge(frm, to, cost)
             
         g.printMatrix()
         
