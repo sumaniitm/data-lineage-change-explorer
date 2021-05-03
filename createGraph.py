@@ -1,5 +1,7 @@
 import os
 import sys
+import json
+
 sys.path.append('.')
 
 from graph import Graph
@@ -7,6 +9,15 @@ from graph import Graph
 ## This module will aim to create the adjacency matrix based on inputs
 ## inputs are a list of vertices and a list of tuples where the tuples are made of the two vertices which makes an edge and the cost associated with that edge
 ## e.g. createGraph(['a','b','c'], [('a','b',10),('a','c',20),('b','c',30)])
+
+## provide json as vertices and edges
+with open('vertices.json','r') as f:
+    vertices_config = json.load(f)
+    
+listOfVertices=[]
+
+for i in range(0,len(vertices_config['vertices'])):
+    listOfVertices.append(vertices_config['vertices'][i]['vertex_id'])
 
 class createGraph:
     def __init__(self, listOfVertices=[], listOfEdges=[]):

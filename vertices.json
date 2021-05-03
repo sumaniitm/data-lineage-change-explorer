@@ -1,0 +1,22 @@
+{
+    "vertices" : [
+        {
+            "vertex_id" : "a",
+            "vertex_description" : "Data attribute 1",
+            "vertex_value" : 100,
+            "vertex_value_date" : "2020-04-19"
+        },
+        {
+            "vertex_id" : "b",
+            "vertex_description" : "Data attribute 2",
+            "vertex_value" : 45,
+            "vertex_value_date" : "2020-04-19"
+        },
+        {
+            "vertex_id" : "c",
+            "vertex_description" : "Data attribute 3",
+            "vertex_value" : 145,
+            "vertex_value_date" : "2020-04-19"
+        }
+    ]
+}
