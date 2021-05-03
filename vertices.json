@@ -17,6 +17,12 @@
             "vertex_description" : "Data attribute 3",
             "vertex_value" : 145,
             "vertex_value_date" : "2020-04-19"
+        },
+        {
+            "vertex_id" : "d",
+            "vertex_description" : "Data attribute 4",
+            "vertex_value" : 231,
+            "vertex_value_date" : "2020-04-19"
         }
     ]
 }

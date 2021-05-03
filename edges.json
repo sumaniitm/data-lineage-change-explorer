@@ -3,13 +3,19 @@
         {
             "from_vertex_id" : "a",
             "to_vertex_id" : "c",
-            "edge_id" : 1
+            "edge_id" : 1,
             "edge_description" : "Transform Rule 1"
+        },
+        {
+            "from_vertex_id" : "c",
+            "to_vertex_id" : "d",
+            "edge_id" : 3,
+            "edge_description" : "Transform Rule 3"
         },
         {
             "from_vertex_id" : "b",
             "to_vertex_id" : "c",
-            "edge_id" : 2
+            "edge_id" : 2,
             "edge_description" : "Transform Rule 2"
         }
     ]
