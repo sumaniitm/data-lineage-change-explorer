@@ -24,7 +24,7 @@ class Graph:
                 vtx = v
         return vtx
                 
-    def addEdge(self, frm, to, cost=0):
+    def addEdge(self, frm, to, cost=(0,0)):
         self.adjMatrix[self.getVertex(frm)][self.getVertex(to)] = cost
         
     def getVertices(self):
