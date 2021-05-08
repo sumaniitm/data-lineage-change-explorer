@@ -1,0 +1,25 @@
+{
+    "edges" : [
+        {
+            "from_vertex_id" : "a",
+            "from_vertex_value" : 100,
+            "to_vertex_id" : "c",
+            "edge_value" : 129,
+            "edge_description" : "Transform Rule 1"
+        },
+        {
+            "from_vertex_id" : "c",
+            "from_vertex_value" : 129,
+            "to_vertex_id" : "d",
+            "edge_value" : 200,
+            "edge_description" : "Transform Rule 3"
+        },
+        {
+            "from_vertex_id" : "b",
+            "from_vertex_value" : 29,
+            "to_vertex_id" : "c",
+            "edge_value" : 129,
+            "edge_description" : "Transform Rule 2"
+        }
+    ]
+}
