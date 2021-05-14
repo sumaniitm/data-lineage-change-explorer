@@ -94,6 +94,7 @@ class createGraph:
                 else:
                     g.addEdge(frm, to, cost)
         g.printMatrix()
+        return g
         
     def createDeltaMatrix(self):
         ## check for equivalence of edges.json and lookup.json in terms of edges.
@@ -124,3 +125,4 @@ class createGraph:
                 else:
                     gDelta.addEdge(frm, to, cost)
         gDelta.printMatrix()
+        return gDelta
