@@ -93,7 +93,7 @@ class createGraph:
                     print("only directed graph is allowed, this edge won't be created")
                 else:
                     g.addEdge(frm, to, cost)
-            #g.printMatrix()
+        #g.printMatrix()
         return g
         
     def createDeltaMatrix(self):
@@ -124,5 +124,5 @@ class createGraph:
                     print("only directed graph is allowed, this edge won't be created")
                 else:
                     gDelta.addEdge(frm, to, cost)
-        gDelta.printMatrix()
+        #gDelta.printMatrix()
         return gDelta

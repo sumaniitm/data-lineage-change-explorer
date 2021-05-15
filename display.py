@@ -13,6 +13,14 @@ class displayDataLineage:
     def __init__(self):
         self.cg = createGraph()
         
+    def getRootAttribute(self):
+        valueMatrix = self.cg.createValueMatrix()
+        for i in range(len(valueMatrix.getVertices())):
+            vtx = Vertex(valueMatrix.getVertex(valueMatrix.getVertices()[i]))
+            conn = vtx.getConnections(valueMatrix)
+            if not any(conn):
+                return vtx
+        
     def showAttributeLineage(self):
         valueMatrix = self.cg.createValueMatrix()
         for i in range(len(valueMatrix.getVertices())):
