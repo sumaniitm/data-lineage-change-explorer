@@ -39,10 +39,10 @@ class Graph:
         edges = []
         for v in range(0, self.numVertices):
             for u in range(0, self.numVertices):
-                if self.adjMatrix[u][v] != -1:
+                if self.adjMatrix[u][v] != 0:
                     vid = self.vertices[v].getVertexId()
                     wid = self.vertices[u].getVertexId()
-                    edges.append((vid, wid, self.adjMatrix[u][v]))
+                    edges.append((wid, vid, self.adjMatrix[u][v]))
         return edges
     
     def printMatrix(self):
@@ -51,29 +51,20 @@ class Graph:
             for v in range(0, self.numVertices):
                 row.append(self.adjMatrix[u][v])
             print(row)
-        print('\n')
-        rez = [[self.adjMatrix[j][i] for j in range(len(self.adjMatrix))] for i in range(len(self.adjMatrix[0]))]
-        for r in rez:
-            print(r)
             
     # Function to perform BFS on the graph
     def BFS(self, start):
         visited = [False] * self.numVertices
+        BFSlist = []
         adjMatrixTrans = [[self.adjMatrix[j][i] for j in range(len(self.adjMatrix))] for i in range(len(self.adjMatrix[0]))]
-        #q = [start]
         q = Queue()
         q.enQueue(start)
         visited[start] = True
-        while q:
-            #vis = q[0]
+        while not q.isEmpty():
             vis = q.deQueue()
-            #print('in while')
-            print(vis)
-            #q.pop(0)
+            BFSlist.append(vis)
             for i in range(self.numVertices):
-                #print('i is ', i)
-                #print('inside for ',adjMatrixTrans[vis][i])
                 if ( adjMatrixTrans[vis][i] != 0 and ( visited[i] == False ) ):
-                    #print('inside if')
                     q.enQueue(i)
                     visited[i] = True
+        return BFSlist
