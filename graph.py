@@ -62,9 +62,11 @@ class Graph:
         visited[start] = True
         while not q.isEmpty():
             vis = q.deQueue()
+            print("appending ",vis)
             BFSlist.append(vis)
             for i in range(self.numVertices):
                 if ( adjMatrixTrans[vis][i] != 0 and ( visited[i] == False ) ):
                     q.enQueue(i)
                     visited[i] = True
         return BFSlist
+    

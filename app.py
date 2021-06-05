@@ -15,6 +15,7 @@ ddl = displayDataLineage()
 
 lineage = ddl.showAttributeLineage()
 deltaLineage = ddl.showDeltaLineage()
+edgeList = ddl.getEdgeListBFS()
 
 @app.route('/')
 @app.route('/index')
@@ -23,7 +24,7 @@ def index():
 
 @app.route('/attributeLineage')
 def attributeLineage():
-    return render_template('attributeLineage.html', lineage=lineage)
+    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList)
     
 @app.route('/attributeDeltaLineage')
 def attributeDeltaLineage():

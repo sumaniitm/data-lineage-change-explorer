@@ -3,58 +3,6 @@
 <html lang="en">
   
   <meta charset="utf-8">
-  <script src="https://d3js.org/d3.v5.js"></script>
-  <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
-  <title>Dagre D3 Demo: Sentence Tokenization</title>
-  
-  <style id="css">
-  
-  .node.selected{
-    fill: #00ffd0;
-  }
-  
-  text {
-    font-weight: 300;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 10px;
-  }
-  
-  .node rect {
-    stroke: #999;
-    fill: #fff;
-    stroke-width: 1px;
-  }
-  
-  .node rect{
-  	cursor: pointer;
-  }
-  
-  .node rect text{
-  	cursor: pointer;
-  }
-  
-  .edgePath path {
-    stroke: #333;
-    stroke-width: 1px;
-  }
-  
-  .visible{
-    opacity: 1 !important; 
-  }
-  
-  .invisible{
-    opacity: 0 !important; 
-  }
-  </style>
-  
-  <svg id="svg-canvas" width=800 height=800></svg>
-  
-  <script>
-    var nodes_list = form.lineage;
-  </script>
-  
-  <script src="data.js"></script>
-  <script src="code.js"></script>
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">

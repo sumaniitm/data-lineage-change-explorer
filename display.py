@@ -43,3 +43,11 @@ class displayDataLineage:
             finalVertexList.append({'name':deltaMatrix.getEdges()[BFSlist[i]], 'id':i})
         return finalVertexList
         
+    def getEdgeListBFS(self):
+        valueMatrix = self.cg.createValueMatrix()
+        edgelist = valueMatrix.getEdges()
+        finalEdgeList = []
+        for i in range(len(edgelist)):
+            finalEdgeList.append({'source':edgelist[i][0], 'destination':edgelist[i][1]})
+        return finalEdgeList
+        
