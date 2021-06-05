@@ -2,7 +2,12 @@ from flask import Flask, render_template, url_for, redirect
 import os
 from display import displayDataLineage
 
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='',
+            static_folder='static',
+            template_folder='templates'
+            )
+            
 app.config['SECRET_KEY'] = 'secret-key'
 print(__name__)
 
@@ -14,7 +19,7 @@ deltaLineage = ddl.showDeltaLineage()
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', lineage=lineage)
 
 @app.route('/attributeLineage')
 def attributeLineage():

@@ -30,7 +30,7 @@ class displayDataLineage:
         BFSlist = valueMatrix.BFS(start)
         finalVertexList = []
         for i in range(len(BFSlist)):
-            finalVertexList.append(valueMatrix.getVertices()[BFSlist[i]])
+            finalVertexList.append({'name':valueMatrix.getVertices()[BFSlist[i]], 'id':i})
         return finalVertexList
     
     ## The delta (percentages) will display as a result of BFS on the attributes graph
@@ -40,6 +40,6 @@ class displayDataLineage:
         BFSlist = deltaMatrix.BFS(start)
         finalVertexList = []
         for i in range(len(BFSlist)-1):
-            finalVertexList.append(deltaMatrix.getEdges()[BFSlist[i]])
+            finalVertexList.append({'name':deltaMatrix.getEdges()[BFSlist[i]], 'id':i})
         return finalVertexList
         
