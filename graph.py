@@ -44,16 +44,6 @@ class Graph:
                     wid = self.vertices[u].getVertexId()
                     edges.append((wid, vid, self.adjMatrix[u][v]))
         return edges
-        
-    def getEdgesMarkers(self):
-        edges = []
-        for v in range(0, self.numVertices):
-            for u in range(0, self.numVertices):
-                if self.adjMatrix[u][v] != 0:
-                    vid = v
-                    wid = u
-                    edges.append((wid, vid, self.adjMatrix[u][v]))
-        return edges
     
     def printMatrix(self):
         for u in range(0, self.numVertices):

@@ -44,7 +44,7 @@ class createGraph:
         self.listOfEdgesToCompare=[]
         
         for i in range(0,len(edges_config['edges'])):
-            self.listOfEdges.append( (edges_config['edges'][i]['from_vertex_id'], edges_config['edges'][i]['to_vertex_id'], ( edges_config['edges'][i]['from_vertex_value'], edges_config['edges'][i]['edge_value'] ) ) )
+            self.listOfEdges.append( (edges_config['edges'][i]['from_vertex_id'], edges_config['edges'][i]['to_vertex_id'], ( edges_config['edges'][i]['edge_value'], edges_config['edges'][i]['from_vertex_value'] ) ) )
             self.listOfEdgesToCompare.append( (edges_config['edges'][i]['from_vertex_id'], edges_config['edges'][i]['to_vertex_id']) )
         
         with open('lookupPast.json','r') as f:
@@ -54,7 +54,7 @@ class createGraph:
         self.listOfLookupEdgesToCompare=[]
         
         for i in range(0,len(lookup_config['edges'])):
-            self.listOfLookupEdges.append( (lookup_config['edges'][i]['from_vertex_id'], lookup_config['edges'][i]['to_vertex_id'], (lookup_config['edges'][i]['from_vertex_value'], lookup_config['edges'][i]['edge_value']) ) )
+            self.listOfLookupEdges.append( (lookup_config['edges'][i]['from_vertex_id'], lookup_config['edges'][i]['to_vertex_id'], ( lookup_config['edges'][i]['edge_value'], lookup_config['edges'][i]['from_vertex_value']) ) )
             self.listOfLookupEdgesToCompare.append( (lookup_config['edges'][i]['from_vertex_id'], lookup_config['edges'][i]['to_vertex_id']) )
     
     def checkForValidLookup(self):

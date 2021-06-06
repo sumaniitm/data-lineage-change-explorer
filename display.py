@@ -39,7 +39,14 @@ class displayDataLineage:
         start = self.getRootAttribute()
         BFSlist,BFSedgeList = deltaMatrix.BFS(start)
         finalVertexList = []
+        edgeLabels = []
         for i in range(len(BFSlist)-1):
-            finalVertexList.append({'name':deltaMatrix.getEdges()[BFSlist[i]], 'id':i})
-        return finalVertexList
+            finalVertexList.append(deltaMatrix.getEdges()[BFSlist[i]])
+        for i in range(len(BFSlist)-1):
+            edgeLabels.append(finalVertexList[i][2])
+        #return finalVertexList
+        finalVertexList,BFSedgeList = self.showAttributeLineage()
+        for i in range(len(edgeLabels)):
+            BFSedgeList[i]['label']=edgeLabels[i]
+        return BFSedgeList
         

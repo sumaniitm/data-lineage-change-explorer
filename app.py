@@ -14,7 +14,7 @@ print(__name__)
 ddl = displayDataLineage()
 
 lineage,edgeList = ddl.showAttributeLineage()
-deltaLineage = ddl.showDeltaLineage()
+deltaEdgeLineage = ddl.showDeltaLineage()
 
 @app.route('/')
 @app.route('/index')
@@ -24,10 +24,12 @@ def index():
 @app.route('/attributeLineage')
 def attributeLineage():
     return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList)
+
+print(deltaEdgeLineage)
     
 @app.route('/attributeDeltaLineage')
 def attributeDeltaLineage():
-    return render_template('attributeDeltaLineage.html', lineage=deltaLineage)
+    return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=edgeList)
 
 if __name__ == '__main__':
     #app.run(debug=True)
