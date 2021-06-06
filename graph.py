@@ -70,4 +70,22 @@ class Graph:
                     visited[i] = True
                     BFSedgeList.append({'source':i, 'destination':vis})
         return BFSlist,BFSedgeList
+        
+    def BFSwithLabel(self, start):
+        visited = [False] * self.numVertices
+        BFSlist = []
+        BFSedgeList = []
+        adjMatrixTrans = [[self.adjMatrix[j][i] for j in range(len(self.adjMatrix))] for i in range(len(self.adjMatrix[0]))]
+        q = Queue()
+        q.enQueue(start)
+        visited[start] = True
+        while not q.isEmpty():
+            vis = q.deQueue()
+            BFSlist.append(vis)
+            for i in range(self.numVertices):
+                if ( adjMatrixTrans[vis][i] != 0 and ( visited[i] == False ) ):
+                    q.enQueue(i)
+                    visited[i] = True
+                    BFSedgeList.append({'source':i, 'destination':vis, 'label':str(adjMatrixTrans[vis][i])})
+        return BFSlist,BFSedgeList
     

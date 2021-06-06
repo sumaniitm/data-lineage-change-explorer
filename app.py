@@ -24,12 +24,10 @@ def index():
 @app.route('/attributeLineage')
 def attributeLineage():
     return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList)
-
-print(deltaEdgeLineage)
     
 @app.route('/attributeDeltaLineage')
 def attributeDeltaLineage():
-    return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=edgeList)
+    return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage)
 
 if __name__ == '__main__':
     #app.run(debug=True)
