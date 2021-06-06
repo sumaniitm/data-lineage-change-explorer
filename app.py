@@ -13,9 +13,8 @@ print(__name__)
 
 ddl = displayDataLineage()
 
-lineage = ddl.showAttributeLineage()
+lineage,edgeList = ddl.showAttributeLineage()
 deltaLineage = ddl.showDeltaLineage()
-edgeList = ddl.getEdgeListBFS()
 
 @app.route('/')
 @app.route('/index')

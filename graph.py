@@ -44,6 +44,16 @@ class Graph:
                     wid = self.vertices[u].getVertexId()
                     edges.append((wid, vid, self.adjMatrix[u][v]))
         return edges
+        
+    def getEdgesMarkers(self):
+        edges = []
+        for v in range(0, self.numVertices):
+            for u in range(0, self.numVertices):
+                if self.adjMatrix[u][v] != 0:
+                    vid = v
+                    wid = u
+                    edges.append((wid, vid, self.adjMatrix[u][v]))
+        return edges
     
     def printMatrix(self):
         for u in range(0, self.numVertices):
@@ -56,17 +66,18 @@ class Graph:
     def BFS(self, start):
         visited = [False] * self.numVertices
         BFSlist = []
+        BFSedgeList = []
         adjMatrixTrans = [[self.adjMatrix[j][i] for j in range(len(self.adjMatrix))] for i in range(len(self.adjMatrix[0]))]
         q = Queue()
         q.enQueue(start)
         visited[start] = True
         while not q.isEmpty():
             vis = q.deQueue()
-            print("appending ",vis)
             BFSlist.append(vis)
             for i in range(self.numVertices):
                 if ( adjMatrixTrans[vis][i] != 0 and ( visited[i] == False ) ):
                     q.enQueue(i)
                     visited[i] = True
-        return BFSlist
+                    BFSedgeList.append({'source':i, 'destination':vis})
+        return BFSlist,BFSedgeList
     
