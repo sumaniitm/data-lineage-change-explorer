@@ -29,7 +29,7 @@ class createGraph:
         ## the edge values of a-c and b-c will be a^2 and b^2 respectively, while the vertex value of c will be a^2 + b^2 + 2ab
         ## the vertex value of a and b are a and b respectively
         
-        with open('vertices.json','r') as f:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'vertices.json'),'r') as f:
             vertices_config = json.load(f)
     
         self.listOfVertices=[]
@@ -37,7 +37,7 @@ class createGraph:
         for i in range(0,len(vertices_config['vertices'])):
             self.listOfVertices.append(vertices_config['vertices'][i]['vertex_id'])
         
-        with open('edges.json','r') as f:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'edges.json'),'r') as f:
             edges_config = json.load(f)
             
         self.listOfEdges=[]
@@ -47,7 +47,7 @@ class createGraph:
             self.listOfEdges.append( (edges_config['edges'][i]['from_vertex_id'], edges_config['edges'][i]['to_vertex_id'], ( edges_config['edges'][i]['edge_value'], edges_config['edges'][i]['from_vertex_value'] ) ) )
             self.listOfEdgesToCompare.append( (edges_config['edges'][i]['from_vertex_id'], edges_config['edges'][i]['to_vertex_id']) )
         
-        with open('lookupPast.json','r') as f:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'lookupPast.json'),'r') as f:
             lookup_config = json.load(f)
             
         self.listOfLookupEdges=[]

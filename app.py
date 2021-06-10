@@ -1,34 +1,45 @@
+import airflow
+from airflow.plugins_manager import AirflowPlugin
+from flask_admin import BaseView, expose
+from flask_appbuilder import BaseView as AppBuilderBaseView
+from flask_appbuilder import has_access
+from flask_admin.base import MenuLink
 from flask import Flask, render_template, url_for, redirect
 import os
 from display import displayDataLineage
 
-app = Flask(__name__,
-            static_url_path='',
-            static_folder='static',
-            template_folder='templates'
-            )
-            
-app.config['SECRET_KEY'] = 'secret-key'
-print(__name__)
+class customAppLauncher(AppBuilderBaseView):
+    ddl = displayDataLineage()
+    lineage,edgeList = ddl.showAttributeLineage()
+    deltaEdgeLineage = ddl.showDeltaLineage()
 
-ddl = displayDataLineage()
+    @expose('/')
+    @expose('/index')
+    def index():
+        return render_template('index.html', lineage=lineage)
 
-lineage,edgeList = ddl.showAttributeLineage()
-deltaEdgeLineage = ddl.showDeltaLineage()
-
-@app.route('/')
-@app.route('/index')
-def index():
-    return render_template('index.html', lineage=lineage)
-
-@app.route('/attributeLineage')
-def attributeLineage():
-    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList)
+    @expose('/attributeLineage')
+    def attributeLineage():
+        return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList)
     
-@app.route('/attributeDeltaLineage')
-def attributeDeltaLineage():
-    return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage)
+    @expose('/attributeDeltaLineage')
+    def attributeDeltaLineage():
+        return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage)
 
-if __name__ == '__main__':
-    #app.run(debug=True)
-    app.run(host='0.0.0.0', port=8080, debug=True)
+bp = Blueprint(
+        "Lineages", __name__,
+        template_folder='templates',
+        static_folder='static',
+        static_url_path='~/airflow/plugins/')
+
+class AirflowCustomLauncher(AirflowPlugin):
+    name = "Lineages"
+    app = customAppLauncher()
+    app_launcher_package = {
+            "name": "Custom App",
+            "category": "Lineages",
+            "view": app
+            }
+    appbuilder_views = [app_launcher_package]
+    flask_blueprints = [bp]
+
