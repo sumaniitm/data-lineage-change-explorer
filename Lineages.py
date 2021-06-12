@@ -9,9 +9,6 @@ import os
 from display import displayDataLineage
 
 class customAppLauncher(AppBuilderBaseView):
-    ddl = displayDataLineage()
-    lineage,edgeList = ddl.showAttributeLineage()
-    deltaEdgeLineage = ddl.showDeltaLineage()
 
     @expose('/')
     def list(self):
@@ -36,7 +33,7 @@ bp = Blueprint(
         "Lineages", __name__,
         template_folder='templates',
         static_folder='static',
-        static_url_path='')
+        static_url_path='/static/Lineages')
 
 class AirflowCustomLauncher(AirflowPlugin):
     name = "Lineages"
