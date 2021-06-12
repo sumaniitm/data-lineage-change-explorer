@@ -33,7 +33,7 @@ bp = Blueprint(
         "Lineages", __name__,
         template_folder='templates',
         static_folder='static',
-        static_url_path='/static/Lineages')
+        static_url_path='')
 
 class AirflowCustomLauncher(AirflowPlugin):
     name = "Lineages"
