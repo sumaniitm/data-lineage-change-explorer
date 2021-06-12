@@ -1,7 +1,3 @@
 # algorithms-implementations
 
-This repository aims to produce python code to implement the algorithms listed in the book "Introduction to Algorithms by Cormen, Leiserson Rivest & Stein".
-
-The development will be done with OOP constructs in mind and keeping Orthogonality, Reversibility and DRY (Don't Repeat Yourself) principals in mind.
-
-Stay tuned
+The main branch of this repo will hold the base working application which can work standalone to visualize the quality/drift of the domain objects involved in a data pipeline
