@@ -1,7 +1,3 @@
 # algorithms-implementations
 
-This repository aims to produce python code to implement the algorithms listed in the book "Introduction to Algorithms by Cormen, Leiserson Rivest & Stein".
-
-The development will be done with OOP constructs in mind and keeping Orthogonality, Reversibility and DRY (Don't Repeat Yourself) principals in mind.
-
-Stay tuned
+This branch of this repo is attempting to create a custom plugin for Airflow, which will enable a view to look at the quality/drift of the domain objects involved in the airflow DAG
