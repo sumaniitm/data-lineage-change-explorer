@@ -1,0 +1,7 @@
+[db-settings]
+server = localhost
+dbname = trackdatalineage
+schema = s_data
+[app-home]
+app_home_path = /Users/sumangangopadhyay/
+path_to_creds = algorithms-implementations/credentials.cpython-38.pyc
