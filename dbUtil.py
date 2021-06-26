@@ -6,6 +6,8 @@ import pandas as pd
 import os
 import imp
 import configparser as cp
+import json
+from pathlib import Path
 
 class dbutils():
     def __init__(self):
@@ -27,6 +29,23 @@ class dbutils():
         engine = sql.create_engine(conn_string)
         cnxn = engine.connect()
         return cnxn
+
+    def buildVertexJson(self,tablename=None):
+        dbconn = self.getDbconnection()
+        if dbconn:
+            print('successfully connected to database')
+            if tablename is None:
+                print("No table name provided, can't build vertices, will exit")
+                return
+            sql = """select distinct column_name from information_schema."columns" c where table_name = '{0}'""".format(tablename)
+            df = pd.read_sql_query(sql, dbconn)
+            json_dict = {"vertices" : []}
+            for i in range(df.shape[0]):
+                json_dict['vertices'].append({"vertex_id" : df.column_name[i], "vertex_description" : df.column_name[i]})
+            jsonpath = Path.cwd() / 'result.json'
+            json_str = json.dumps(json_dict, indent=4) + '\n'
+            jsonpath.write_text(json_str, encoding='utf-8')
+            print('successfully created the vertices json')
 
     def loadInDb(self):
         dbconn = self.getDbconnection()
