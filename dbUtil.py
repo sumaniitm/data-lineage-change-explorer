@@ -23,6 +23,7 @@ class dbutils():
         self.password = self.db_creds_module.password()
         self.server = config.get('db-settings','server')
         self.dbname = config.get('db-settings','dbname')
+        self.query = config.get('db-settings', 'query')
 
     def getDbconnection(self):
         conn_string = 'postgresql://{0}:{1}@{2}/{3}'.format(self.username,self.password,self.server,self.dbname)
@@ -30,18 +31,17 @@ class dbutils():
         cnxn = engine.connect()
         return cnxn
 
-    def buildVertexJson(self,tablename=None):
+    def buildVertexJson(self):
         dbconn = self.getDbconnection()
         if dbconn:
             print('successfully connected to database')
-            if tablename is None:
-                print("No table name provided, can't build vertices, will exit")
+            if self.query is None:
+                print("No query provided, can't build vertices, will exit")
                 return
-            sql = """select distinct column_name from information_schema."columns" c where table_name = '{0}'""".format(tablename)
-            df = pd.read_sql_query(sql, dbconn)
+            df = pd.read_sql_query(self.query, dbconn)
             json_dict = {"vertices" : []}
             for i in range(df.shape[0]):
-                json_dict['vertices'].append({"vertex_id" : df.column_name[i], "vertex_description" : df.column_name[i]})
+                json_dict['vertices'].append({"vertex_id" : df.column_name[i], "vertex_description" : df.table_name[i]})
             jsonpath = Path.cwd() / 'result.json'
             json_str = json.dumps(json_dict, indent=4) + '\n'
             jsonpath.write_text(json_str, encoding='utf-8')

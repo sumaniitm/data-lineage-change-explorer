@@ -2,6 +2,7 @@
 server = localhost
 dbname = trackdatalineage
 schema = s_data
+query = select distinct column_name, table_name from information_schema."columns" c where table_name in ('t_covid_impact_tracker_by_date','t_covid_activity_by_date','t_covid_cases_by_date') and column_name != 'report_date'
 [app-home]
 app_home_path = /Users/sumangangopadhyay/
 path_to_creds = algorithms-implementations/credentials.cpython-38.pyc
