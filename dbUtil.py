@@ -61,18 +61,26 @@ class dbutils():
             for i in range(0,len(edges_config['edges'])):
                 print('looking for vertex value')
                 from_vertex_id = edges_config['edges'][i]['from_vertex_id']
+                to_vertex_id = edges_config['edges'][i]['to_vertex_id']
                 for j in range(0,len(vertices_config['vertices'])):
-                    if vertices_config['vertices'][i]['vertex_id'] == from_vertex_id:
-                        query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][i]['vertex_description'],edges_config['edges'][i]['edge_description'])
-                        print(query)
+                    if vertices_config['vertices'][j]['vertex_id'] == to_vertex_id:
+                        query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],edges_config['edges'][i]['edge_description'])
+                        df = pd.read_sql_query(query, dbconn)
+                        edges_config['edges'][i]['edge_value'] = df.values[0][0]
+                        print('successfully set edge value from database')
+                    if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
+                        query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],edges_config['edges'][i]['edge_description'])
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
-                        with open('edges.json', 'w') as f:
-                            json.dump(edges_config, f, indent=4)
-                        print('successfully set edge value from database')
+                        print('successfully set from_vertex value from database')
+                    with open('edges.json', 'w') as f:
+                        json.dump(edges_config, f, indent=4)
+
         else:
             print('failed to connect to database')
 
+    ## This method won't be needed in an actual production scenario as loading data is not the focus of this application
+    ## This method is present only to help by loading test data
     def loadInDb(self):
         dbconn = self.getDbconnection()
         if dbconn:
