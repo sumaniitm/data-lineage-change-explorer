@@ -42,10 +42,36 @@ class dbutils():
             json_dict = {"vertices" : []}
             for i in range(df.shape[0]):
                 json_dict['vertices'].append({"vertex_id" : df.column_name[i], "vertex_description" : df.table_name[i]})
-            jsonpath = Path.cwd() / 'result.json'
+            jsonpath = Path.cwd() / 'vertices.json'
             json_str = json.dumps(json_dict, indent=4) + '\n'
             jsonpath.write_text(json_str, encoding='utf-8')
             print('successfully created the vertices json')
+        else:
+            print('failed to connect to database')
+
+    def buildEdgeJson(self):
+        dbconn = self.getDbconnection()
+        if dbconn:
+            print('successfully connected to database')
+            with open('vertices.json', 'r') as f:
+                vertices_config = json.load(f)
+            with open('edges.json', 'r') as f:
+                edges_config = json.load(f)
+            f.close()
+            for i in range(0,len(edges_config['edges'])):
+                print('looking for vertex value')
+                from_vertex_id = edges_config['edges'][i]['from_vertex_id']
+                for j in range(0,len(vertices_config['vertices'])):
+                    if vertices_config['vertices'][i]['vertex_id'] == from_vertex_id:
+                        query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][i]['vertex_description'],edges_config['edges'][i]['edge_description'])
+                        print(query)
+                        df = pd.read_sql_query(query, dbconn)
+                        edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
+                        with open('edges.json', 'w') as f:
+                            json.dump(edges_config, f, indent=4)
+                        print('successfully set edge value from database')
+        else:
+            print('failed to connect to database')
 
     def loadInDb(self):
         dbconn = self.getDbconnection()

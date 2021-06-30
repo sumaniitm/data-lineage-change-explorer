@@ -1,46 +1,18 @@
 {
     "edges" : [
         {
-            "from_vertex_id" : "V1",
+            "from_vertex_id" : "people_positive_cases_count_by_date",
             "from_vertex_value" : 100,
-            "to_vertex_id" : "V3",
+            "to_vertex_id" : "rate_of_positivity",
             "edge_value" : 129,
-            "edge_description" : "Transform Rule 1"
+            "edge_description" : "report_date"
         },
         {
-            "from_vertex_id" : "V3",
-            "from_vertex_value" : 129,
-            "to_vertex_id" : "V4",
-            "edge_value" : 231,
-            "edge_description" : "Transform Rule 3"
-        },
-        {
-            "from_vertex_id" : "V2",
+            "from_vertex_id" : "people_total_tested_count_by_date",
             "from_vertex_value" : 29,
-            "to_vertex_id" : "V3",
+            "to_vertex_id" : "rate_of_positivity",
             "edge_value" : 129,
-            "edge_description" : "Transform Rule 2"
-        },
-        {
-            "from_vertex_id" : "V7",
-            "from_vertex_value" : 102,
-            "to_vertex_id" : "V6",
-            "edge_value" : 102,
-            "edge_description" : "Transform Rule 6"
-        },
-        {
-            "from_vertex_id" : "V6",
-            "from_vertex_value" : 102,
-            "to_vertex_id" : "V4",
-            "edge_value" : 231,
-            "edge_description" : "Transform Rule 5"
-        },
-        {
-            "from_vertex_id" : "V4",
-            "from_vertex_value" : 231,
-            "to_vertex_id" : "V5",
-            "edge_value" : 250,
-            "edge_description" : "Transform Rule 4"
+            "edge_description" : "report_date"
         }
     ]
 }
