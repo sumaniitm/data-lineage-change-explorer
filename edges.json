@@ -4,15 +4,15 @@
             "from_vertex_id": "people_positive_cases_count_by_date",
             "from_vertex_value": 1835155.0,
             "to_vertex_id": "rate_of_positivity",
-            "edge_value": 129,
-            "edge_description": "report_date"
+            "edge_value": 0.327,
+            "edge_description": "Edge 1"
         },
         {
             "from_vertex_id": "people_total_tested_count_by_date",
             "from_vertex_value": 5611784.0,
             "to_vertex_id": "rate_of_positivity",
-            "edge_value": 129,
-            "edge_description": "report_date"
+            "edge_value": 0.327,
+            "edge_description": "Edge 2"
         }
     ]
 }

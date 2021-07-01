@@ -9,7 +9,7 @@ import configparser as cp
 import json
 from pathlib import Path
 
-class dbutils():
+class DbUtil:
     def __init__(self):
         config = cp.ConfigParser()
         config.read('config.txt')
@@ -24,15 +24,17 @@ class dbutils():
         self.server = config.get('db-settings','server')
         self.dbname = config.get('db-settings','dbname')
         self.query = config.get('db-settings', 'query')
+        self.filter = config.get('db-settings', 'filter')
+        self.date_column_name = config.get('db-settings', 'date_column_name')
 
-    def getDbconnection(self):
+    def getdbconnection(self):
         conn_string = 'postgresql://{0}:{1}@{2}/{3}'.format(self.username,self.password,self.server,self.dbname)
         engine = sql.create_engine(conn_string)
         cnxn = engine.connect()
         return cnxn
 
-    def buildVertexJson(self):
-        dbconn = self.getDbconnection()
+    def buildvertexjson(self):
+        dbconn = self.getdbconnection()
         if dbconn:
             print('successfully connected to database')
             if self.query is None:
@@ -49,40 +51,45 @@ class dbutils():
         else:
             print('failed to connect to database')
 
-    def buildEdgeJson(self):
-        dbconn = self.getDbconnection()
+    def buildedgejson(self):
+        #first copy over the edges.json to lookupPast.json since the current edges.json will act as lookup for the future edges.json which is about to get built
+        with open('edges.json', 'r') as f:
+            edges_config = json.load(f)
+        f.close()
+        with open('lookupPast.json', 'w') as f:
+            json.dump(edges_config, f, indent=4)
+        print('successfully copied the current edge info into lookup')
+        dbconn = self.getdbconnection()
         if dbconn:
             print('successfully connected to database')
             with open('vertices.json', 'r') as f:
                 vertices_config = json.load(f)
-            with open('edges.json', 'r') as f:
-                edges_config = json.load(f)
-            f.close()
             for i in range(0,len(edges_config['edges'])):
                 print('looking for vertex value')
                 from_vertex_id = edges_config['edges'][i]['from_vertex_id']
                 to_vertex_id = edges_config['edges'][i]['to_vertex_id']
                 for j in range(0,len(vertices_config['vertices'])):
                     if vertices_config['vertices'][j]['vertex_id'] == to_vertex_id:
-                        query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],edges_config['edges'][i]['edge_description'])
+                        if self.filter == 'date':
+                            query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name)
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['edge_value'] = df.values[0][0]
                         print('successfully set edge value from database')
                     if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
-                        query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],edges_config['edges'][i]['edge_description'])
+                        if self.filter == 'date':
+                            query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name)
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
                         print('successfully set from_vertex value from database')
                     with open('edges.json', 'w') as f:
                         json.dump(edges_config, f, indent=4)
-
         else:
             print('failed to connect to database')
 
     ## This method won't be needed in an actual production scenario as loading data is not the focus of this application
     ## This method is present only to help by loading test data
-    def loadInDb(self):
-        dbconn = self.getDbconnection()
+    def loadindb(self):
+        dbconn = self.getdbconnection()
         if dbconn:
             print('successfully connected to database')
             ## These table creations were for one time run only
