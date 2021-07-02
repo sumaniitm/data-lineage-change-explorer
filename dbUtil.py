@@ -8,6 +8,7 @@ import imp
 import configparser as cp
 import json
 from pathlib import Path
+from datetime import date
 
 class DbUtil:
     def __init__(self):
@@ -51,7 +52,7 @@ class DbUtil:
         else:
             print('failed to connect to database')
 
-    def buildedgejson(self):
+    def buildedgejson(self, lineage_requested_on=date.today().strftime("%Y-%m-%d")):
         #first copy over the edges.json to lookupPast.json since the current edges.json will act as lookup for the future edges.json which is about to get built
         with open('edges.json', 'r') as f:
             edges_config = json.load(f)
@@ -71,13 +72,13 @@ class DbUtil:
                 for j in range(0,len(vertices_config['vertices'])):
                     if vertices_config['vertices'][j]['vertex_id'] == to_vertex_id:
                         if self.filter == 'date':
-                            query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name)
+                            query = """ select {0} from {1}.{2} where {3} = '{4}'::date """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name,lineage_requested_on)
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['edge_value'] = df.values[0][0]
                         print('successfully set edge value from database')
                     if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
                         if self.filter == 'date':
-                            query = """ select {0} from {1}.{2} where {3} = '2020-04-12'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name)
+                            query = """ select {0} from {1}.{2} where {3} = '{4}'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name,lineage_requested_on)
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
                         print('successfully set from_vertex value from database')
