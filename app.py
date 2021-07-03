@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, flash
 import os
 from display import displayDataLineage
+import forms
 
 app = Flask(__name__,
             static_url_path='',
@@ -17,6 +18,17 @@ lineage,edgeList = ddl.showAttributeLineage()
 deltaEdgeLineage = ddl.showDeltaLineage()
 
 @app.route('/')
+@app.route('/home', methods=['GET', 'POST'])
+def home():
+    form = forms.LineageRequestedForDate()
+    if form.validate_on_submit():
+        print('within validate')
+        return redirect(url_for('index'))
+    flash('Incorrect Date input')
+    print('outside validate')
+    print(form.errors)
+    return render_template('home.html', form=form)
+
 @app.route('/index')
 def index():
     return render_template('index.html', lineage=lineage)
