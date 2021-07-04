@@ -14,6 +14,9 @@
     <title>Track Domain Object lineage</title>
   </head>
   <body>
+  <br>
+  <h3> Please provide the date for which you want to explore the changes along the lineage </h3>
+  <br>
   {%  block main %}
     <div class="container-fluid">
       <form action="{{ url_for('home') }}" method="post">
@@ -23,9 +26,19 @@
           </div>
           <div class="col">
               {{ form.submit(class="btn btn-primary") }}
+              {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-primary">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+              {% endwith %}
           </div>
       </form>
     </div>
   {% endblock %}
+  <br>
   </body>
 </html>
