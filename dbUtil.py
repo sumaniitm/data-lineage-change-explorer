@@ -52,14 +52,25 @@ class DbUtil:
         else:
             print('failed to connect to database')
 
-    def buildedgejson(self, lineage_requested_on=date.today().strftime("%Y-%m-%d")):
+    def buildedgejson(self, lineage_requested_on=date.today().strftime("%Y-%m-%d"), mode=None):
         #first copy over the edges.json to lookupPast.json since the current edges.json will act as lookup for the future edges.json which is about to get built
-        with open('edges.json', 'r') as f:
-            edges_config = json.load(f)
-        f.close()
-        with open('lookupPast.json', 'w') as f:
-            json.dump(edges_config, f, indent=4)
-        print('successfully copied the current edge info into lookup')
+        if mode is None:
+            print('nothing to do, will exit')
+            return
+        elif mode == 'Future':
+            with open('edges.json', 'r') as f:
+                edges_config = json.load(f)
+            f.close()
+        elif mode == 'Past':
+            with open('lookupPast.json', 'r') as f:
+                edges_config = json.load(f)
+            f.close()
+        else:
+            print('Incorrect input mode, will exit')
+            return
+        #with open('lookupPast.json', 'w') as f:
+        #    json.dump(edges_config, f, indent=4)
+        #print('successfully copied the current edge info into lookup')
         dbconn = self.getdbconnection()
         if dbconn:
             print('successfully connected to database')
@@ -76,14 +87,20 @@ class DbUtil:
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['edge_value'] = df.values[0][0]
                         print('successfully set edge value from database')
+
                     if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
                         if self.filter == 'date':
                             query = """ select {0} from {1}.{2} where {3} = '{4}'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name,lineage_requested_on)
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
                         print('successfully set from_vertex value from database')
-                    with open('edges.json', 'w') as f:
-                        json.dump(edges_config, f, indent=4)
+
+                    if mode == 'Future':
+                        with open('edges.json', 'w') as f:
+                            json.dump(edges_config, f, indent=4)
+                    else:
+                        with open('lookupPast.json', 'w') as f:
+                            json.dump(edges_config, f, indent=4)
         else:
             print('failed to connect to database')
 

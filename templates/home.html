@@ -15,14 +15,21 @@
   </head>
   <body>
   <br>
-  <h3> Please provide the date for which you want to explore the changes along the lineage </h3>
+  <h3> Please provide the dates for which you want to explore the changes along the lineage </h3>
   <br>
   {%  block main %}
     <div class="container-fluid">
       <form action="{{ url_for('home') }}" method="post">
           {{ form.csrf_token }}
+          <h4> Please provide the date for which you want the lineage </h4>
           <div class="col">
               {{ form.lineagerequestedfordate(class="form-control") }}
+          </div>
+          <br>
+          <br>
+          <h4> Please provide the date with which you want to compare </h4>
+          <div class="col">
+              {{ form.lineagecomparedwithdate(class="form-control") }}
           </div>
           <div class="col">
               {{ form.submit(class="btn btn-primary") }}

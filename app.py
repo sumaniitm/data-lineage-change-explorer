@@ -19,11 +19,13 @@ du = DbUtil()
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    form = forms.LineageRequestedForDate()
+    form = forms.LineageDates()
     if form.is_submitted():
         if form.validate_on_submit():
             lineage_requested_on = form.lineagerequestedfordate.data
-            du.buildedgejson(lineage_requested_on=lineage_requested_on)
+            du.buildedgejson(lineage_requested_on=lineage_requested_on, mode='Future')
+            lineage_tobe_compared_with = form.lineagecomparedwithdate.data
+            du.buildedgejson(lineage_requested_on=lineage_tobe_compared_with, mode='Past')
             return redirect(url_for('index'))
         else:
             flash('Incorrect Date input')
