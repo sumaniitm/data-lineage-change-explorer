@@ -34,7 +34,7 @@ var g = new dagreD3.graphlib.Graph()
 for(index in nodes_list){
 	g.setNode(
 		nodes_list[index].id,
-		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id}
+		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 100, width: 280, labelStyle: "font-size: 1em"}
 	);	
 }
 
@@ -55,7 +55,9 @@ for(index in edges_list){
 			curve: d3.curveBasis ,
 			id:String(edges_list[index].source)+"-"+String(edges_list[index].destination),
 			label: edges_list[index].label,
-			class: "edge"
+			class: "edge",
+			height: 50,
+			width: 30
 		}
 	);
 }
@@ -72,8 +74,8 @@ render(d3.select("svg g"), g);
 
 // Center the graph
 var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
-svgGroup.attr("transform", "translate(" + xCenterOffset + ", 20)");
-svg.attr("height", g.graph().height + 40);
+svgGroup.attr("transform", "translate(" + xCenterOffset + ", 200)");
+svg.attr("height", g.graph().height + 400);
 
 
 nodes = svgGroup.selectAll(".node")

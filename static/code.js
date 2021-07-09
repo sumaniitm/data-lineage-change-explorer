@@ -24,7 +24,7 @@ function connected_nodes(d){
 
 // Create the input graph
 var g = new dagreD3.graphlib.Graph()
-  .setGraph({'align': 'UL', 'rankdir': 'RL', 'ranker': 'longest-path'})
+  .setGraph({'align': 'UL', 'rankdir': 'RL', 'ranker': 'longest-path', 'height': 800, 'width': 800})
   .setDefaultEdgeLabel(function() { return {}; });
 
 // Here we're setting nodeclass, which is used by our custom drawNodes function
@@ -34,7 +34,7 @@ var g = new dagreD3.graphlib.Graph()
 for(index in nodes_list){
 	g.setNode(
 		nodes_list[index].id,
-		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id}
+		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 100, width: 280, labelStyle: "font-size: 1em"}
 	);	
 }
 
@@ -54,7 +54,9 @@ for(index in edges_list){
 		{
 			curve: d3.curveBasis ,
 			id:String(edges_list[index].source)+"-"+String(edges_list[index].destination),
-			class: "edge"
+			class: "edge",
+			height: 50,
+			width: 30
 		}
 	);
 }
@@ -66,13 +68,14 @@ var render = new dagreD3.render();
 var svg = d3.select("svg"),
 svgGroup = svg.append("g");
 
+
 // Run the renderer. This is what draws the final graph.
 render(d3.select("svg g"), g);
 
 // Center the graph
 var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
-svgGroup.attr("transform", "translate(" + xCenterOffset + ", 20)");
-svg.attr("height", g.graph().height + 40);
+svgGroup.attr("transform", "translate(" + xCenterOffset + ", 200)");
+svg.attr("height", g.graph().height + 400);
 
 
 nodes = svgGroup.selectAll(".node")
@@ -95,13 +98,13 @@ nodes.on("click", function(d) {
 		if(!(n.id in selected_nodes || n.id == clicked_elem.id)){
 			n.classList.add("invisible");
 			n.classList.remove("visible");
-		}	
+		}
 	});
 	edges._groups[0].forEach(function(e){
 		if(!((e.id.split('-')[0] == clicked_elem.id) || (e.id.split('-')[1] == clicked_elem.id))){
 			e.classList.add("invisible");
 			e.classList.remove("visible");
-		}	
+		}
 	});
 });
 
