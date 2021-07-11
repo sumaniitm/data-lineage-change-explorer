@@ -37,7 +37,8 @@ for(index in nodes_list){
 	g.setNode(
 		nodes_list[index].id,
 		//{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: nodes_list[index].width, labelStyle: "font-size: 1em"}
-		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 280, labelStyle: "font-size: 1em"}
+		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 200, labelStyle: "font-size: 0.80em"}
+		//{label: nodes_list[index].name, class: "node", id: nodes_list[index].id}
 	);	
 }
 
@@ -45,6 +46,7 @@ g.nodes().forEach(function(v) {
   var node = g.node(v);
   // Round the corners of the nodes
   node.rx = node.ry = 5;
+  //node.width = 180;
 });
 
 // Set up edges, no special attributes.
@@ -59,7 +61,7 @@ for(index in edges_list){
 			id:String(edges_list[index].source)+"-"+String(edges_list[index].destination),
 			label: edges_list[index].label,
 			class: "edge",
-			height: 50,
+			height: 30,
 			width: 50
 		}
 	);

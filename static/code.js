@@ -34,7 +34,7 @@ var g = new dagreD3.graphlib.Graph()
 for(index in nodes_list){
 	g.setNode(
 		nodes_list[index].id,
-		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 280, labelStyle: "font-size: 1em"}
+		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 200, labelStyle: "font-size: 0.80em"}
 	);	
 }
 
@@ -55,8 +55,8 @@ for(index in edges_list){
 			curve: d3.curveBasis ,
 			id:String(edges_list[index].source)+"-"+String(edges_list[index].destination),
 			class: "edge",
-			height: 50,
-			width: 30
+			height: 30,
+			width: 50
 		}
 	);
 }
