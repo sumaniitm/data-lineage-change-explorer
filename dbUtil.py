@@ -77,7 +77,7 @@ class DbUtil:
             with open('vertices.json', 'r') as f:
                 vertices_config = json.load(f)
             for i in range(0,len(edges_config['edges'])):
-                print('looking for vertex value')
+                #print('looking for vertex value')
                 from_vertex_id = edges_config['edges'][i]['from_vertex_id']
                 to_vertex_id = edges_config['edges'][i]['to_vertex_id']
                 for j in range(0,len(vertices_config['vertices'])):
@@ -86,14 +86,14 @@ class DbUtil:
                             query = """ select {0} from {1}.{2} where {3} = '{4}'::date """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name,lineage_requested_on)
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['edge_value'] = df.values[0][0]
-                        print('successfully set edge value from database')
+                        #print('successfully set edge value from database')
 
                     if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
                         if self.filter == 'date':
                             query = """ select {0} from {1}.{2} where {3} = '{4}'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name,lineage_requested_on)
                         df = pd.read_sql_query(query, dbconn)
                         edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
-                        print('successfully set from_vertex value from database')
+                        #print('successfully set from_vertex value from database')
 
                     if mode == 'Future':
                         with open('edges.json', 'w') as f:

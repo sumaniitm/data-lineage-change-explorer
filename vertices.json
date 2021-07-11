@@ -1,6 +1,10 @@
 {
     "vertices": [
         {
+            "vertex_id": "log_rate_of_positivity",
+            "vertex_description": "s_data.t_log_covid_impact_by_date"
+        },
+        {
             "vertex_id": "people_positive_cases_count_by_date",
             "vertex_description": "s_data.t_covid_activity_by_date"
         },
@@ -9,8 +13,16 @@
             "vertex_description": "s_data.t_covid_cases_by_date"
         },
         {
+            "vertex_id": "rate_of_change",
+            "vertex_description": "s_data.t_rate_of_change_tracker_by_date"
+        },
+        {
             "vertex_id": "rate_of_positivity",
             "vertex_description": "s_data.t_covid_impact_tracker_by_date"
+        },
+        {
+            "vertex_id": "total_cases_by_date",
+            "vertex_description": "s_data.t_covid_cases_by_date"
         }
     ]
 }

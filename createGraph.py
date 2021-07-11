@@ -112,7 +112,8 @@ class createGraph:
         for e in range(0,len(self.listOfLookupEdges)):
             frmLkp,toLkp,costLkp = self.listOfLookupEdges[e]
             frm,to,costCurr = self.listOfEdges[e]
-            cost = tuple(map(lambda i, j: round((i - j)/j,2), costCurr, costLkp))
+            cost = tuple(map(lambda i, j: round((i - j)/j,3), costCurr, costLkp))
+            #print(cost)
             # keeping a track of the starting and ending vertices of the edges. Is this the most optimal storage ??
             if (self.listOfVertices.count(frm) == 0 or self.listOfVertices.count(to) == 0):
                 print("any one of the provided vertex is not in the list of vertices, this edge won't be created")

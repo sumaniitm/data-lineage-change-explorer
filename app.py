@@ -22,6 +22,7 @@ def home():
     form = forms.LineageDates()
     if form.is_submitted():
         if form.validate_on_submit():
+            du.buildvertexjson()
             lineage_requested_on = form.lineagerequestedfordate.data
             du.buildedgejson(lineage_requested_on=lineage_requested_on, mode='Future')
             lineage_tobe_compared_with = form.lineagecomparedwithdate.data
@@ -34,7 +35,7 @@ def home():
 
 lineage, edgeList = ddl.showAttributeLineage()
 deltaEdgeLineage = ddl.showDeltaLineage()
-
+totalNumOfNodes = len(lineage)
 
 @app.route('/index')
 def index():
@@ -43,12 +44,12 @@ def index():
 
 @app.route('/attributeLineage')
 def attributeLineage():
-    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList)
+    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList, totalNumOfNodes=totalNumOfNodes)
 
 
 @app.route('/attributeDeltaLineage')
 def attributeDeltaLineage():
-    return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage)
+    return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage, totalNumOfNodes=totalNumOfNodes)
 
 
 if __name__ == '__main__':

@@ -34,7 +34,7 @@ var g = new dagreD3.graphlib.Graph()
 for(index in nodes_list){
 	g.setNode(
 		nodes_list[index].id,
-		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 100, width: 280, labelStyle: "font-size: 1em"}
+		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 280, labelStyle: "font-size: 1em"}
 	);	
 }
 
@@ -73,9 +73,10 @@ svgGroup = svg.append("g");
 render(d3.select("svg g"), g);
 
 // Center the graph
+svg.attr("width", g.graph().width + 10);
+svg.attr("height", g.graph().height + 100);
 var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
-svgGroup.attr("transform", "translate(" + xCenterOffset + ", 200)");
-svg.attr("height", g.graph().height + 400);
+svgGroup.attr("transform", "translate(" + xCenterOffset + ", 50)");
 
 
 nodes = svgGroup.selectAll(".node")
