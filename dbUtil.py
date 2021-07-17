@@ -26,6 +26,8 @@ class DbUtil:
         self.dbname = config.get('db-settings','dbname')
         self.query = config.get('db-settings', 'query')
         self.filter = config.get('db-settings', 'filter')
+        self.levels = config.get('db-settings', 'levels')
+        self.hierarchy_table_name = config.get('db-settings', 'hierarchy_table_name')
         self.date_column_name = config.get('db-settings', 'date_column_name')
 
     def getdbconnection(self):
@@ -33,6 +35,32 @@ class DbUtil:
         engine = sql.create_engine(conn_string)
         cnxn = engine.connect()
         return cnxn
+
+    # Create a method to get the drop down data and call this method in the app.py, then pass on the list in the html
+    # This method should be callable for all the levels which the user can choose from
+    # However, the data of the lower levels should be based on the data of the higher levels
+
+    def preparesqlquery(self, tablename=None, fieldname=None):
+        if tablename is None or fieldname is None:
+            print('No table name or column name provided, cannot prepare SQL, will exit!')
+            query = None
+        else:
+            query = """ select distinct {0} from {1} order by {0} """.format(fieldname, tablename)
+        return query
+
+    def getdropdowndata(self, level=None):
+        listOfLevels = self.levels.split(',')
+        dbconn = self.getdbconnection()
+        resultset = []
+        if level is None:
+            print('no level is passed, will exit!')
+        elif level not in listOfLevels:
+            print('unrecognised level passed, will exit!')
+        else:
+            query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level)
+            df = pd.read_sql_query(query, dbconn)
+            resultset = df.iloc[:,0].tolist()
+        return resultset
 
     def buildvertexjson(self):
         dbconn = self.getdbconnection()

@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, redirect, flash, get_flashed_
 from display import displayDataLineage
 from dbUtil import DbUtil
 import forms
+import configparser as cp
 
 app = Flask(__name__,
             static_url_path='',
@@ -14,7 +15,7 @@ print(__name__)
 
 ddl = displayDataLineage()
 du = DbUtil()
-
+levels = du.levels.split(',')
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
@@ -36,6 +37,8 @@ def home():
 lineage, edgeList = ddl.showAttributeLineage()
 deltaEdgeLineage = ddl.showDeltaLineage()
 totalNumOfNodes = len(lineage)
+for i in levels:
+    globals()['level_%s' % i] = du.getdropdowndata(i)
 
 @app.route('/index')
 def index():
