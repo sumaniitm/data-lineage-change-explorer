@@ -9,39 +9,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous"-->
 
     <title>Track Domain Object lineage</title>
   </head>
   <body>
   <br>
-  <h3> Please provide the dates for which you want to explore the changes along the lineage </h3>
+  <h3> Please provide the data for which you want to explore the changes along the lineage </h3>
   <br>
   {%  block main %}
     <div class="container-fluid">
       <form action="{{ url_for('home') }}" method="post">
           {{ form.csrf_token }}
-          <h4> Please provide the date for which you want the lineage </h4>
+          {{ form.hidden_tag() }}
+          {% for formname in form.levelnames %}
+              {% for subform in formname if subform.widget.input_type != 'hidden' %}
+                  {%  if subform.label == 'level_report_date' %}
+                      <h4> Provide the date for which you want the lineage </h4>
+                      <div class="col" id="current_date">
+                          {{ subform.label }} {{ subform }}
+                      </div>
+                      <br>
+                      <h4> Provide the date with which you want to compare </h4>
+                      <div class="col" id="past_date">
+                          {{ subform.label }} {{ subform }}
+                      </div>
+                  {% else %}
+                      <br>
+                      <h4> Provide the {{ subform.label }} for which you want the lineage </h4>
+                      <div class="col">
+                          {{ subform.label }} {{ subform }}
+                      </div>
+                      <br>
+                  {% endif %}
+              {% endfor %}
+          {% endfor %}
           <div class="col">
-              {{ form.lineagerequestedfordate(class="form-control") }}
-          </div>
-          <br>
-          <br>
-          <h4> Please provide the date with which you want to compare </h4>
-          <div class="col">
-              {{ form.lineagecomparedwithdate(class="form-control") }}
-          </div>
-          <div class="col">
-              {{ form.submit(class="btn btn-primary") }}
-              {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    {% for message in messages %}
-                    <div class="alert alert-primary">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                {% endif %}
-              {% endwith %}
+                  {{ form.submit(class="btn btn-primary") }}
+                  {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-primary">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                  {% endwith %}
           </div>
       </form>
     </div>

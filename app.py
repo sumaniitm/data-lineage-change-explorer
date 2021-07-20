@@ -2,7 +2,6 @@ from flask import Flask, render_template, url_for, redirect, flash, get_flashed_
 from display import displayDataLineage
 from dbUtil import DbUtil
 import forms
-import configparser as cp
 
 app = Flask(__name__,
             static_url_path='',
@@ -17,28 +16,33 @@ ddl = displayDataLineage()
 du = DbUtil()
 levels = du.levels.split(',')
 
+
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    form = forms.LineageDates()
+    form = forms.LevelForm()
+    list_of_form_data = []
+    for i in levels:
+        list_of_form_data.append('level_' + i)
+    # for n in range(len(list_of_form_data)):
+    #    print(list_of_form_data[n])
     if form.is_submitted():
         if form.validate_on_submit():
             du.buildvertexjson()
-            lineage_requested_on = form.lineagerequestedfordate.data
-            du.buildedgejson(lineage_requested_on=lineage_requested_on, mode='Future')
-            lineage_tobe_compared_with = form.lineagecomparedwithdate.data
-            du.buildedgejson(lineage_requested_on=lineage_tobe_compared_with, mode='Past')
+            # lineage_requested_on = form.lineagerequestedfordate.data
+            # du.buildedgejson(lineage_requested_on=lineage_requested_on, mode='Future')
+            # lineage_tobe_compared_with = form.lineagecomparedwithdate.data
+            # du.buildedgejson(lineage_requested_on=lineage_tobe_compared_with, mode='Past')
             return redirect(url_for('index'))
         else:
             flash('Incorrect Date input')
-    return render_template('home.html', form=form)
+    return render_template('home.html', form=form, list_of_form_data=list_of_form_data)
 
 
 lineage, edgeList = ddl.showAttributeLineage()
 deltaEdgeLineage = ddl.showDeltaLineage()
 totalNumOfNodes = len(lineage)
-for i in levels:
-    globals()['level_%s' % i] = du.getdropdowndata(i)
+
 
 @app.route('/index')
 def index():
