@@ -20,9 +20,8 @@
   {%  block main %}
     <div class="container-fluid">
       <form action="{{ url_for('home') }}" method="post">
-
           {{ form.hidden_tag() }}
-          {% for formname in form.levelnames %}
+          {% for formname in form.levelnames if formname.widget.input_type != 'hidden' %}
               {% for subform in formname %}
                   {%  if subform.label.text == 'report_date' %}
                       <h4> Provide the date for which you want the lineage </h4>
@@ -34,6 +33,9 @@
                       <div class="col" id="past_date">
                             {{ subform.label }} {{ subform }}
                       </div>
+                  {% elif subform.label.text == 'CSRF Token' %}
+                      <br>
+                      {{ subform }}
                   {% else %}
                       <br>
                       <h4> Provide the {{ subform.label }} for which you want the lineage </h4>
