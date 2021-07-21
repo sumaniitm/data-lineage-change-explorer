@@ -20,25 +20,25 @@
   {%  block main %}
     <div class="container-fluid">
       <form action="{{ url_for('home') }}" method="post">
-          {{ form.csrf_token }}
+
           {{ form.hidden_tag() }}
           {% for formname in form.levelnames %}
-              {% for subform in formname if subform.widget.input_type != 'hidden' %}
-                  {%  if subform.label == 'level_report_date' %}
+              {% for subform in formname %}
+                  {%  if subform.label.text == 'report_date' %}
                       <h4> Provide the date for which you want the lineage </h4>
                       <div class="col" id="current_date">
-                          {{ subform.label }} {{ subform }}
+                            {{ subform.label }} {{ subform }}
                       </div>
                       <br>
                       <h4> Provide the date with which you want to compare </h4>
                       <div class="col" id="past_date">
-                          {{ subform.label }} {{ subform }}
+                            {{ subform.label }} {{ subform }}
                       </div>
                   {% else %}
                       <br>
                       <h4> Provide the {{ subform.label }} for which you want the lineage </h4>
                       <div class="col">
-                          {{ subform.label }} {{ subform }}
+                            {{ subform.label }} {{ subform }}
                       </div>
                       <br>
                   {% endif %}
