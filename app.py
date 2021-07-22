@@ -21,14 +21,18 @@ levels = du.levels.split(',')
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     form = forms.LevelForm()
-    list_of_form_data = []
-    for i in levels:
-        list_of_form_data.append('level_' + i)
+    list_of_form_data = {}
+
     # for n in range(len(list_of_form_data)):
     #    print(list_of_form_data[n])
     if form.is_submitted():
         if form.validate_on_submit():
             du.buildvertexjson()
+            levels_from_form = form.levelnames.data
+            list_of_form_data = levels_from_form[0]
+            print(list_of_form_data)
+            print(type(list_of_form_data))
+            #    list_of_form_data[i] = form.i.data
             # lineage_requested_on = form.lineagerequestedfordate.data
             # du.buildedgejson(lineage_requested_on=lineage_requested_on, mode='Future')
             # lineage_tobe_compared_with = form.lineagecomparedwithdate.data
@@ -36,7 +40,7 @@ def home():
             return redirect(url_for('index'))
         else:
             flash('Incorrect Date input')
-    return render_template('home.html', form=form, list_of_form_data=list_of_form_data)
+    return render_template('home.html', form=form)
 
 
 lineage, edgeList = ddl.showAttributeLineage()
