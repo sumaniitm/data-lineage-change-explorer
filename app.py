@@ -23,7 +23,7 @@ levels = du.levels.split(',')
 def home():
     form = forms.LevelForm()
     list_of_form_data = {}
-
+    date_column_name = du.date_column_name
     # for n in range(len(list_of_form_data)):
     #    print(list_of_form_data[n])
     if form.is_submitted():
@@ -41,7 +41,7 @@ def home():
             return redirect(url_for('index'))
         else:
             flash('Incorrect Date input')
-    return render_template('home.html', form=form)
+    return render_template('home.html', form=form, date_column_name=date_column_name)
 
 
 lineage, edgeList = ddl.showAttributeLineage()

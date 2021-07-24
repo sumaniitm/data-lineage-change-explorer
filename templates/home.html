@@ -23,7 +23,7 @@
           {{ form.hidden_tag() }}
           {% for formname in form.levelnames if formname.widget.input_type != 'hidden' %}
               {% for subform in formname %}
-                  {%  if subform.label.text == 'report_date' %}
+                  {%  if subform.label.text == date_column_name %}
                       <h4> Provide the date for which you want the lineage </h4>
                       <div class="col" id="current_date">
                             {{ subform.label }} {{ subform }}

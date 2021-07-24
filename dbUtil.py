@@ -84,9 +84,14 @@ class DbUtil:
         #first copy over the edges.json to lookupPast.json since the current edges.json will act as lookup for the future edges.json which is about to get built
         levels = self.levels.split(',')
         whereclause = ''
+        groupby = ''
         for i in levels:
             #locals()['level_%s' % i] = formdata['level_'+i]
             print('level_'+i)
+            if groupby != '':
+                groupby = groupby + """ , {0} """.format(i)
+            else:
+                groupby = groupby + """ {0} """.format(i)
             if whereclause != '':
                 if i == self.date_column_name:
                     if mode == 'Future':
@@ -132,8 +137,8 @@ class DbUtil:
                 for j in range(0,len(vertices_config['vertices'])):
                     if vertices_config['vertices'][j]['vertex_id'] == to_vertex_id:
                         if self.filter == 'date':
-                            query = """ select {0} from {1}.{2} where {3} """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],whereclause)
-                            #print(query)
+                            query = """ select sum({0}) as {0} from {1}.{2} where {3} group by {4}""".format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],whereclause,groupby)
+                            print(query)
                         df = pd.read_sql_query(query, dbconn)
                         #print(df.shape[0])
                         if df.shape[0] != 0:
@@ -144,8 +149,8 @@ class DbUtil:
 
                     if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
                         if self.filter == 'date':
-                            query = """ select {0} from {1}.{2} where {3} """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],whereclause)
-                            #print(query)
+                            query = """ select sum({0}) as {0} from {1}.{2} where {3} group by {4}""".format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],whereclause,groupby)
+                            print(query)
                         df = pd.read_sql_query(query, dbconn)
                         #print(df.shape[0])
                         if df.shape[0] != 0:
