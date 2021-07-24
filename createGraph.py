@@ -56,7 +56,8 @@ class createGraph:
         for i in range(0,len(lookup_config['edges'])):
             self.listOfLookupEdges.append( (lookup_config['edges'][i]['from_vertex_id'], lookup_config['edges'][i]['to_vertex_id'], ( lookup_config['edges'][i]['edge_value'], lookup_config['edges'][i]['from_vertex_value']) ) )
             self.listOfLookupEdgesToCompare.append( (lookup_config['edges'][i]['from_vertex_id'], lookup_config['edges'][i]['to_vertex_id']) )
-    
+
+
     def checkForValidLookup(self):
         ## check if the lookup.json is of same structure as the edges.json . This is a hard requirement
         result = True
@@ -112,7 +113,10 @@ class createGraph:
         for e in range(0,len(self.listOfLookupEdges)):
             frmLkp,toLkp,costLkp = self.listOfLookupEdges[e]
             frm,to,costCurr = self.listOfEdges[e]
+            print(costCurr)
+            print(costLkp)
             cost = tuple(map(lambda i, j: round((i - j)/j,3), costCurr, costLkp))
+            print(cost)
             #print(cost)
             # keeping a track of the starting and ending vertices of the edges. Is this the most optimal storage ??
             if (self.listOfVertices.count(frm) == 0 or self.listOfVertices.count(to) == 0):

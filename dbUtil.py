@@ -26,6 +26,8 @@ class DbUtil:
         self.dbname = config.get('db-settings','dbname')
         self.query = config.get('db-settings', 'query')
         self.filter = config.get('db-settings', 'filter')
+        self.levels = config.get('db-settings', 'levels')
+        self.hierarchy_table_name = config.get('db-settings', 'hierarchy_table_name')
         self.date_column_name = config.get('db-settings', 'date_column_name')
 
     def getdbconnection(self):
@@ -33,6 +35,32 @@ class DbUtil:
         engine = sql.create_engine(conn_string)
         cnxn = engine.connect()
         return cnxn
+
+    # Create a method to get the drop down data and call this method in the app.py, then pass on the list in the html
+    # This method should be callable for all the levels which the user can choose from
+    # However, the data of the lower levels should be based on the data of the higher levels
+
+    def preparesqlquery(self, tablename=None, fieldname=None):
+        if tablename is None or fieldname is None:
+            print('No table name or column name provided, cannot prepare SQL, will exit!')
+            query = None
+        else:
+            query = """ select distinct {0} from {1} order by {0} """.format(fieldname, tablename)
+        return query
+
+    def getdropdowndata(self, level=None):
+        listOfLevels = self.levels.split(',')
+        dbconn = self.getdbconnection()
+        resultset = []
+        if level is None:
+            print('no level is passed, will exit!')
+        elif level not in listOfLevels:
+            print('unrecognised level passed, will exit!')
+        else:
+            query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level)
+            df = pd.read_sql_query(query, dbconn)
+            resultset = df.iloc[:,0].tolist()
+        return resultset
 
     def buildvertexjson(self):
         dbconn = self.getdbconnection()
@@ -52,8 +80,29 @@ class DbUtil:
         else:
             print('failed to connect to database')
 
-    def buildedgejson(self, lineage_requested_on=date.today().strftime("%Y-%m-%d"), mode=None):
+    def buildedgejson(self, formdata={}, mode=None):
         #first copy over the edges.json to lookupPast.json since the current edges.json will act as lookup for the future edges.json which is about to get built
+        levels = self.levels.split(',')
+        whereclause = ''
+        for i in levels:
+            #locals()['level_%s' % i] = formdata['level_'+i]
+            print('level_'+i)
+            if whereclause != '':
+                if i == self.date_column_name:
+                    if mode == 'Future':
+                        whereclause = whereclause + """and {0} = '{1}'::date """.format(i, formdata['level_future_' + i])
+                    else:
+                        whereclause = whereclause + """and {0} = '{1}'::date """.format(i, formdata['level_past_' + i])
+                else:
+                    whereclause = whereclause + """and {0} = '{1}' """.format(i, formdata['level_'+i])
+            else:
+                if i == self.date_column_name:
+                    if mode == 'Future':
+                        whereclause = whereclause + """{0} = '{1}'::date """.format(i,formdata['level_future_' + i])
+                    else:
+                        whereclause = whereclause + """{0} = '{1}'::date """.format(i, formdata['level_past_' + i])
+                else:
+                    whereclause = whereclause + """{0} = '{1}' """.format(i, formdata['level_' + i])
         if mode is None:
             print('nothing to do, will exit')
             return
@@ -83,16 +132,26 @@ class DbUtil:
                 for j in range(0,len(vertices_config['vertices'])):
                     if vertices_config['vertices'][j]['vertex_id'] == to_vertex_id:
                         if self.filter == 'date':
-                            query = """ select {0} from {1}.{2} where {3} = '{4}'::date """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name,lineage_requested_on)
+                            query = """ select {0} from {1}.{2} where {3} """.format(to_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],whereclause)
+                            #print(query)
                         df = pd.read_sql_query(query, dbconn)
-                        edges_config['edges'][i]['edge_value'] = df.values[0][0]
+                        #print(df.shape[0])
+                        if df.shape[0] != 0:
+                            edges_config['edges'][i]['edge_value'] = df.values[0][0]
+                        else:
+                            edges_config['edges'][i]['edge_value'] = 0
                         #print('successfully set edge value from database')
 
                     if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
                         if self.filter == 'date':
-                            query = """ select {0} from {1}.{2} where {3} = '{4}'::date """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],self.date_column_name,lineage_requested_on)
+                            query = """ select {0} from {1}.{2} where {3} """.format(from_vertex_id,self.dbname,vertices_config['vertices'][j]['vertex_description'],whereclause)
+                            #print(query)
                         df = pd.read_sql_query(query, dbconn)
-                        edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
+                        #print(df.shape[0])
+                        if df.shape[0] != 0:
+                            edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
+                        else:
+                            edges_config['edges'][i]['from_vertex_value'] = 0
                         #print('successfully set from_vertex value from database')
 
                     if mode == 'Future':

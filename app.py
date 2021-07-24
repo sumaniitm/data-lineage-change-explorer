@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, flash, get_flashed_messages
 from display import displayDataLineage
 from dbUtil import DbUtil
+from createGraph import createGraph
 import forms
 
 app = Flask(__name__,
@@ -14,19 +15,29 @@ print(__name__)
 
 ddl = displayDataLineage()
 du = DbUtil()
+levels = du.levels.split(',')
 
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    form = forms.LineageDates()
+    form = forms.LevelForm()
+    list_of_form_data = {}
+
+    # for n in range(len(list_of_form_data)):
+    #    print(list_of_form_data[n])
     if form.is_submitted():
         if form.validate_on_submit():
             du.buildvertexjson()
-            lineage_requested_on = form.lineagerequestedfordate.data
-            du.buildedgejson(lineage_requested_on=lineage_requested_on, mode='Future')
-            lineage_tobe_compared_with = form.lineagecomparedwithdate.data
-            du.buildedgejson(lineage_requested_on=lineage_tobe_compared_with, mode='Past')
+            levels_from_form = form.levelnames.data
+            list_of_form_data = levels_from_form[0]
+            print(list_of_form_data)
+            # print(type(list_of_form_data))
+            del list_of_form_data['csrf_token']
+            # lineage_requested_on = form.lineagerequestedfordate.data
+            du.buildedgejson(list_of_form_data, mode='Future')
+            # lineage_tobe_compared_with = form.lineagecomparedwithdate.data
+            du.buildedgejson(list_of_form_data, mode='Past')
             return redirect(url_for('index'))
         else:
             flash('Incorrect Date input')
@@ -36,6 +47,7 @@ def home():
 lineage, edgeList = ddl.showAttributeLineage()
 deltaEdgeLineage = ddl.showDeltaLineage()
 totalNumOfNodes = len(lineage)
+
 
 @app.route('/index')
 def index():
@@ -49,6 +61,8 @@ def attributeLineage():
 
 @app.route('/attributeDeltaLineage')
 def attributeDeltaLineage():
+    ddl = displayDataLineage()
+    deltaEdgeLineage = ddl.showDeltaLineage()
     return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage, totalNumOfNodes=totalNumOfNodes)
 
 
