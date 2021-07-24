@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, flash, get_flashed_messages
 from display import displayDataLineage
 from dbUtil import DbUtil
+from createGraph import createGraph
 import forms
 
 app = Flask(__name__,
@@ -31,12 +32,12 @@ def home():
             levels_from_form = form.levelnames.data
             list_of_form_data = levels_from_form[0]
             print(list_of_form_data)
-            print(type(list_of_form_data))
-            #    list_of_form_data[i] = form.i.data
+            # print(type(list_of_form_data))
+            del list_of_form_data['csrf_token']
             # lineage_requested_on = form.lineagerequestedfordate.data
-            # du.buildedgejson(lineage_requested_on=lineage_requested_on, mode='Future')
+            du.buildedgejson(list_of_form_data, mode='Future')
             # lineage_tobe_compared_with = form.lineagecomparedwithdate.data
-            # du.buildedgejson(lineage_requested_on=lineage_tobe_compared_with, mode='Past')
+            du.buildedgejson(list_of_form_data, mode='Past')
             return redirect(url_for('index'))
         else:
             flash('Incorrect Date input')
@@ -60,6 +61,8 @@ def attributeLineage():
 
 @app.route('/attributeDeltaLineage')
 def attributeDeltaLineage():
+    ddl = displayDataLineage()
+    deltaEdgeLineage = ddl.showDeltaLineage()
     return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage, totalNumOfNodes=totalNumOfNodes)
 
 

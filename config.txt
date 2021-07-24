@@ -6,7 +6,7 @@ filter = date
 levels = report_date,country_region,province_state,iso2,iso3
 hierarchy_table_name = s_data.t_norm_covid_cases_by_date_5levels
 date_column_name = report_date
-query = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_log_covid_impact_by_date','t_covid_impact_tracker_by_date','t_covid_activity_by_date','t_covid_cases_by_date','t_rate_of_change_tracker_by_date') and column_name in ('rate_of_positivity','people_total_tested_count_by_date','people_positive_cases_count_by_date','log_rate_of_positivity','rate_of_change','total_cases_by_date')
+query = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_normalised_cases_per_tested','t_norm_covid_cases_by_date_5levels','t_covid_cases_by_date_5levels') and column_name in ('normalised_cases_per_tested','stdv_total_cases_by_date','mean_total_cases_by_date','total_cases_by_date')
 [app-home]
 app_home_path = /Users/sumangangopadhyay/
 path_to_creds = algorithms-implementations/credentials.cpython-38.pyc
