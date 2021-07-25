@@ -2,30 +2,30 @@
     "edges": [
         {
             "from_vertex_id": "total_cases_by_date",
-            "from_vertex_value": 206268.0,
+            "from_vertex_value": 41.0,
             "to_vertex_id": "mean_total_cases_by_date",
-            "edge_value": 103134.0,
+            "edge_value": 20.5,
             "edge_description": "Edge 1"
         },
         {
             "from_vertex_id": "total_cases_by_date",
-            "from_vertex_value": 206268.0,
+            "from_vertex_value": 41.0,
             "to_vertex_id": "stdv_total_cases_by_date",
-            "edge_value": 106845.24885085403,
+            "edge_value": 28.991378028648448,
             "edge_description": "Edge 2"
         },
         {
             "from_vertex_id": "mean_total_cases_by_date",
-            "from_vertex_value": 103134.0,
+            "from_vertex_value": 20.5,
             "to_vertex_id": "normalised_cases_per_tested",
-            "edge_value": 8.910898383303392,
+            "edge_value": 0.7071067811865476,
             "edge_description": "Edge 3"
         },
         {
             "from_vertex_id": "stdv_total_cases_by_date",
-            "from_vertex_value": 106845.24885085403,
+            "from_vertex_value": 28.991378028648448,
             "to_vertex_id": "normalised_cases_per_tested",
-            "edge_value": 8.910898383303392,
+            "edge_value": 0.7071067811865476,
             "edge_description": "Edge 4"
         }
     ]
