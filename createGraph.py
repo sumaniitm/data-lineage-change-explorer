@@ -115,7 +115,10 @@ class createGraph:
             frm,to,costCurr = self.listOfEdges[e]
             print(costCurr)
             print(costLkp)
-            cost = tuple(map(lambda i, j: round((i - j)/j,3), costCurr, costLkp))
+            if costLkp != (0, 0):
+                cost = tuple(map(lambda i, j: round((i - j)/j, 3), costCurr, costLkp))
+            else:
+                cost = (0, 0)
             print(cost)
             #print(cost)
             # keeping a track of the starting and ending vertices of the edges. Is this the most optimal storage ??

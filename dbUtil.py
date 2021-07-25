@@ -88,26 +88,41 @@ class DbUtil:
         for i in levels:
             #locals()['level_%s' % i] = formdata['level_'+i]
             print('level_'+i)
+            # if (i != self.date_column_name) or (formdata['level_'+i] != 'N/A'):
             if groupby != '':
-                groupby = groupby + """ , {0} """.format(i)
+                if i == self.date_column_name:
+                    groupby = groupby + """ , {0} """.format(i)
+                elif formdata['level_'+i] != 'N/A':
+                    groupby = groupby + """ , {0} """.format(i)
+                else:
+                    groupby = groupby
             else:
-                groupby = groupby + """ {0} """.format(i)
+                if i == self.date_column_name:
+                    groupby = groupby + """ {0} """.format(i)
+                elif formdata['level_'+i] != 'N/A':
+                    groupby = groupby + """ {0} """.format(i)
+                else:
+                    groupby = groupby
             if whereclause != '':
                 if i == self.date_column_name:
                     if mode == 'Future':
                         whereclause = whereclause + """and {0} = '{1}'::date """.format(i, formdata['level_future_' + i])
                     else:
                         whereclause = whereclause + """and {0} = '{1}'::date """.format(i, formdata['level_past_' + i])
+                elif formdata['level_' + i] != 'N/A':
+                    whereclause = whereclause + """and {0} = '{1}' """.format(i, formdata['level_' + i])
                 else:
-                    whereclause = whereclause + """and {0} = '{1}' """.format(i, formdata['level_'+i])
+                    whereclause = whereclause
             else:
                 if i == self.date_column_name:
                     if mode == 'Future':
                         whereclause = whereclause + """{0} = '{1}'::date """.format(i,formdata['level_future_' + i])
                     else:
                         whereclause = whereclause + """{0} = '{1}'::date """.format(i, formdata['level_past_' + i])
-                else:
+                elif formdata['level_' + i] != 'N/A':
                     whereclause = whereclause + """{0} = '{1}' """.format(i, formdata['level_' + i])
+                else:
+                    whereclause = whereclause
         if mode is None:
             print('nothing to do, will exit')
             return

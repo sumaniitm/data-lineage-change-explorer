@@ -17,7 +17,8 @@ class LineageDates(FlaskForm):
             locals()['level_future_%s' % i] = SelectField(u'future_%s' % i, choices=choice)
             locals()['level_past_%s' % i] = SelectField(u'past_%s' % i, choices=choice)
         else:
-            locals()['level_%s' % i] = SelectField(u'%s' % i, choices=choice)
+            choice.append('N/A')
+            locals()['level_%s' % i] = SelectField(u'%s' % i, choices=choice, default='N/A')
     #choice = du.getdropdowndata('report_date')
     #level_report_date = SelectField(u'Report Date', choices=choice)
     # lineagerequestedfordate = DateField('Lineage Requested For Date', validators=[DataRequired()])
