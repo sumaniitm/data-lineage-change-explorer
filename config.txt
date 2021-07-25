@@ -9,4 +9,4 @@ date_column_name = report_date
 query = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_normalised_cases_per_tested','t_norm_covid_cases_by_date_5levels','t_covid_cases_by_date_5levels') and column_name in ('normalised_cases_per_tested','stdv_total_cases_by_date','mean_total_cases_by_date','total_cases_by_date')
 [app-home]
 app_home_path = /Users/sumangangopadhyay/
-path_to_creds = algorithms-implementations/credentials.cpython-38.pyc
+path_to_creds = data-lineage-change-explorer/credentials.cpython-38.pyc
