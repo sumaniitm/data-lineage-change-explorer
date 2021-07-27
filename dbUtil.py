@@ -73,7 +73,7 @@ class DbUtil:
             json_dict = {"vertices" : []}
             for i in range(df.shape[0]):
                 json_dict['vertices'].append({"vertex_id" : df.column_name[i], "vertex_description" : df.table_name[i]})
-            jsonpath = Path.cwd() / 'vertices.json'
+            jsonpath = Path.cwd() / 'json_files/vertices.json'
             json_str = json.dumps(json_dict, indent=4) + '\n'
             jsonpath.write_text(json_str, encoding='utf-8')
             print('successfully created the vertices json')
@@ -127,11 +127,11 @@ class DbUtil:
             print('nothing to do, will exit')
             return
         elif mode == 'Future':
-            with open('edges.json', 'r') as f:
+            with open('json_files/edges.json', 'r') as f:
                 edges_config = json.load(f)
             f.close()
         elif mode == 'Past':
-            with open('lookupPast.json', 'r') as f:
+            with open('json_files/lookupPast.json', 'r') as f:
                 edges_config = json.load(f)
             f.close()
         else:
@@ -143,7 +143,7 @@ class DbUtil:
         dbconn = self.getdbconnection()
         if dbconn:
             print('successfully connected to database')
-            with open('vertices.json', 'r') as f:
+            with open('json_files/vertices.json', 'r') as f:
                 vertices_config = json.load(f)
             for i in range(0,len(edges_config['edges'])):
                 #print('looking for vertex value')
@@ -175,10 +175,10 @@ class DbUtil:
                         #print('successfully set from_vertex value from database')
 
                     if mode == 'Future':
-                        with open('edges.json', 'w') as f:
+                        with open('json_files/edges.json', 'w') as f:
                             json.dump(edges_config, f, indent=4)
                     else:
-                        with open('lookupPast.json', 'w') as f:
+                        with open('json_files/lookupPast.json', 'w') as f:
                             json.dump(edges_config, f, indent=4)
         else:
             print('failed to connect to database')
