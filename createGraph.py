@@ -116,7 +116,7 @@ class createGraph:
             print(costCurr)
             print(costLkp)
             if costLkp != (0, 0):
-                cost = tuple(map(lambda i, j: round((i - j)/j, 3), costCurr, costLkp))
+                cost = tuple(map(lambda i, j: round((i - j)/j, 3) if j != 0 else 0, costCurr, costLkp))
             else:
                 cost = (0, 0)
             print(cost)

@@ -157,7 +157,7 @@ class DbUtil:
                         df = pd.read_sql_query(query, dbconn)
                         #print(df.shape[0])
                         if df.shape[0] != 0:
-                            edges_config['edges'][i]['edge_value'] = df.values[0][0]
+                            edges_config['edges'][i]['edge_value'] = int(df.values[0][0])
                         else:
                             edges_config['edges'][i]['edge_value'] = 0
                         #print('successfully set edge value from database')
@@ -169,7 +169,7 @@ class DbUtil:
                         df = pd.read_sql_query(query, dbconn)
                         #print(df.shape[0])
                         if df.shape[0] != 0:
-                            edges_config['edges'][i]['from_vertex_value'] = df.values[0][0]
+                            edges_config['edges'][i]['from_vertex_value'] = int(df.values[0][0])
                         else:
                             edges_config['edges'][i]['from_vertex_value'] = 0
                         #print('successfully set from_vertex value from database')
