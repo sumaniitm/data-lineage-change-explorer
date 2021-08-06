@@ -24,7 +24,6 @@ class DbUtil:
         self.password = self.db_creds_module.password()
         self.server = config.get('db-settings','server')
         self.dbname = config.get('db-settings','dbname')
-        self.query = config.get('db-settings', 'query')
         self.filter = config.get('db-settings', 'filter')
         self.levels = config.get('db-settings', 'levels')
         self.hierarchy_table_name = config.get('db-settings', 'hierarchy_table_name')
@@ -61,24 +60,6 @@ class DbUtil:
             df = pd.read_sql_query(query, dbconn)
             resultset = df.iloc[:,0].tolist()
         return resultset
-
-    def buildvertexjson(self):
-        dbconn = self.getdbconnection()
-        if dbconn:
-            print('successfully connected to database')
-            if self.query is None:
-                print("No query provided, can't build vertices, will exit")
-                return
-            df = pd.read_sql_query(self.query, dbconn)
-            json_dict = {"vertices" : []}
-            for i in range(df.shape[0]):
-                json_dict['vertices'].append({"vertex_id" : df.column_name[i], "vertex_description" : df.table_name[i]})
-            jsonpath = Path.cwd() / 'json_files/vertices.json'
-            json_str = json.dumps(json_dict, indent=4) + '\n'
-            jsonpath.write_text(json_str, encoding='utf-8')
-            print('successfully created the vertices json')
-        else:
-            print('failed to connect to database')
 
     def buildedgejson(self, formdata={}, mode=None):
         #first copy over the edges.json to lookupPast.json since the current edges.json will act as lookup for the future edges.json which is about to get built

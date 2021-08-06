@@ -6,7 +6,12 @@ filter = date
 levels = report_date,country_region,province_state,iso2,iso3
 hierarchy_table_name = s_data.t_norm_covid_cases_by_date_5levels
 date_column_name = report_date
-query = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_normalised_cases_per_tested','t_norm_covid_cases_by_date_5levels','t_covid_cases_by_date_5levels') and column_name in ('normalised_cases_per_tested','stdv_total_cases_by_date','mean_total_cases_by_date','total_cases_by_date')
+[entity-settings]
+number_of_entities = 2
+entity_1 =  Covid Cases
+query_for_entity_1 = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_log_covid_cases_vs_tested','t_normalised_cases_vs_tested') and column_name in ('cases','cases_sqrd','mean_cases','stddev_cases_sqrd','norm_cases','log_norm_cases')
+entity_2 = People tested for Covid
+query_for_entity_2 = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_log_covid_cases_vs_tested','t_normalised_cases_vs_tested') and column_name in ('people_tested','people_tested_sqrd','mean_people_tested','stddev_people_tested_sqrd','norm_people_tested','log_norm_people_tested')
 [app-home]
 app_home_path = /Users/sumangangopadhyay/
 path_to_creds = data-lineage-change-explorer/credentials.cpython-38.pyc
