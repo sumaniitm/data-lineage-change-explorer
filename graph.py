@@ -87,5 +87,4 @@ class Graph:
                     q.enQueue(i)
                     visited[i] = True
                     BFSedgeList.append({'source':i, 'destination':vis, 'label':str(adjMatrixTrans[vis][i])})
-        return BFSlist,BFSedgeList
-    
+        return BFSlist, BFSedgeList
