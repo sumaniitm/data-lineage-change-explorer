@@ -3,6 +3,7 @@ from display import displayDataLineage
 from dbUtil import DbUtil
 from buildjsons import BuildJsons
 import forms
+import configparser as cp
 
 app = Flask(__name__,
             static_url_path='',
@@ -13,58 +14,65 @@ app = Flask(__name__,
 app.config['SECRET_KEY'] = 'secret-key'
 print(__name__)
 
-ddl = displayDataLineage()
+#ddl = displayDataLineage()
 bj = BuildJsons()
 du = DbUtil()
 levels = du.levels.split(',')
-
+number_of_entities = int(du.number_of_entities)
+entity_list = du.entity_list.split(',')
 
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     form = forms.LevelForm()
-    list_of_form_data = {}
+    #list_of_form_data = {}
     date_column_name = du.date_column_name
-    # for n in range(len(list_of_form_data)):
-    #    print(list_of_form_data[n])
     if form.is_submitted():
         if form.validate_on_submit():
             bj.buildvertexjson()
             levels_from_form = form.levelnames.data
             list_of_form_data = levels_from_form[0]
             print(list_of_form_data)
-            # print(type(list_of_form_data))
             del list_of_form_data['csrf_token']
-            # lineage_requested_on = form.lineagerequestedfordate.data
             bj.buildedgejson(list_of_form_data, mode='Future')
-            # lineage_tobe_compared_with = form.lineagecomparedwithdate.data
             bj.buildedgejson(list_of_form_data, mode='Past')
-            return redirect(url_for('index'))
+            return redirect(url_for('attributeDeltaLineage'))
         else:
             flash('Incorrect Date input')
     return render_template('home.html', form=form, date_column_name=date_column_name)
 
 
-lineage, edgeList = ddl.showAttributeLineage()
-deltaEdgeLineage = ddl.showDeltaLineage()
-totalNumOfNodes = len(lineage)
+#lineage, edgeList = ddl.showAttributeLineage()
+#deltaEdgeLineage = ddl.showDeltaLineage()
+#totalNumOfNodes = len(lineage)
 
 
-@app.route('/index')
-def index():
-    return render_template('index.html', lineage=lineage)
+#@app.route('/index')
+#def index():
+#    return render_template('index.html', lineage=lineage)
 
 
-@app.route('/attributeLineage')
-def attributeLineage():
-    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList, totalNumOfNodes=totalNumOfNodes)
+#@app.route('/attributeLineage')
+#def attributeLineage():
+#    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList, totalNumOfNodes=totalNumOfNodes)
 
 
 @app.route('/attributeDeltaLineage')
 def attributeDeltaLineage():
-    ddl = displayDataLineage()
-    deltaEdgeLineage = ddl.showDeltaLineage()
-    return render_template('attributeDeltaLineage.html', lineage=lineage, deltaEdgeLineage=deltaEdgeLineage, totalNumOfNodes=totalNumOfNodes)
+    config = cp.ConfigParser()
+    config.read('config.txt')
+    deltaEdgeLineage = []
+    lineage = []
+    for i in range(number_of_entities):
+        jsonEdgeFileNameWithPath = """json_files/edges_entity_{0}.json""".format(i + 1)
+        jsonLookupFileNameWithPath = """json_files/lookupPast_entity_{0}.json""".format(i + 1)
+        vertexFileNameWithPath = """json_files/vertices_entity_{0}.json""".format(i + 1)
+        ddl = displayDataLineage(vertexJsonFile=vertexFileNameWithPath, edgeJsonFile=jsonEdgeFileNameWithPath, lookupJsonFile=jsonLookupFileNameWithPath)
+        deltaEdgeLineage.append(ddl.showDeltaLineage())
+        lineage.append(ddl.showAttributeLineage())
+    entity_nodes_edges = zip(entity_list, lineage, deltaEdgeLineage)
+    list_of_tuples = list(entity_nodes_edges)
+    return render_template('attributeDeltaLineage.html', list_of_tuples=list_of_tuples)
 
 
 if __name__ == '__main__':

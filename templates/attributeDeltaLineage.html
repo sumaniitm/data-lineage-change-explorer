@@ -4,12 +4,12 @@
   <script src="https://d3js.org/d3.v5.js"></script>
   <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+  {%  block main %}
+  {% for rec in list_of_tuples %}
+
   <div class="container-fluid">
-  <ul class="navbar-nav">
-    <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link">Back to main</a></li>
-    <li class="nav-item"><a href="{{ url_for('attributeLineage') }}" class="nav-link">domain object lineage</a></li>
-  </ul>
-  
+  <h4> Data changes along the lineage for {{ rec[0] }} </h4>
   <style id="css">
   
   .node.selected{
@@ -49,18 +49,21 @@
     opacity: 0 !important; 
   }
   </style>
-  <script>
-      var totalNumOfNodes = {{ totalNumOfNodes|tojson }};
-  </script>
 
   <svg id="svg-canvas" ></svg>
 
   <script>
-     var nodes_list = {{ lineage|tojson }};
-     var edges_list = {{ deltaEdgeLineage|tojson }};
+     var nodes_list = {{ rec[1]|tojson }};
+     var edges_list = {{ rec[2]|tojson }};
   </script>
   
   <script src="code_edge.js"></script>
   </div>
+  {% endfor %}
+  {% endblock %}
+
+<div class="container-fluid">
+      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Back to Home</a></li>
+</div>
 
 </html>

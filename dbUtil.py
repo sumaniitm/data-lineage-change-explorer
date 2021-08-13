@@ -28,7 +28,7 @@ class DbUtil:
         self.levels = self.config.get('db-settings', 'levels')
         self.hierarchy_table_name = self.config.get('db-settings', 'hierarchy_table_name')
         self.date_column_name = self.config.get('db-settings', 'date_column_name')
-
+        self.entity_list = self.config.get('entity-settings', 'entity_list')
         self.number_of_entities = self.config.get('entity-settings', 'number_of_entities')
 
     def getdbconnection(self):

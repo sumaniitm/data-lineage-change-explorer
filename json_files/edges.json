@@ -1,32 +1,39 @@
 {
     "edges": [
         {
-            "from_vertex_id": "total_cases_by_date",
-            "from_vertex_value": 2.0,
-            "to_vertex_id": "mean_total_cases_by_date",
-            "edge_value": 1.0,
+            "from_vertex_id": "cases",
+            "from_vertex_value": 918739,
+            "to_vertex_id": "mean_cases",
+            "edge_value": 12798,
             "edge_description": "Edge 1"
         },
         {
-            "from_vertex_id": "total_cases_by_date",
-            "from_vertex_value": 2.0,
-            "to_vertex_id": "stdv_total_cases_by_date",
-            "edge_value": 1.414213562373095,
+            "from_vertex_id": "cases_sqrd",
+            "from_vertex_value": 27707761609,
+            "to_vertex_id": "stddev_cases_sqrd",
+            "edge_value": 2124977170,
             "edge_description": "Edge 2"
         },
         {
-            "from_vertex_id": "mean_total_cases_by_date",
-            "from_vertex_value": 1.0,
-            "to_vertex_id": "normalised_cases_per_tested",
-            "edge_value": 0.7071067811865476,
+            "from_vertex_id": "mean_cases",
+            "from_vertex_value": 12798,
+            "to_vertex_id": "norm_cases",
+            "edge_value": 898,
             "edge_description": "Edge 3"
         },
         {
-            "from_vertex_id": "stdv_total_cases_by_date",
-            "from_vertex_value": 1.414213562373095,
-            "to_vertex_id": "normalised_cases_per_tested",
-            "edge_value": 0.7071067811865476,
+            "from_vertex_id": "stddev_cases_sqrd",
+            "from_vertex_value": 2124977170,
+            "to_vertex_id": "norm_cases",
+            "edge_value": 898,
             "edge_description": "Edge 4"
+        },
+        {
+            "from_vertex_id": "norm_cases",
+            "from_vertex_value": 898,
+            "to_vertex_id": "log_norm_cases",
+            "edge_value": 60,
+            "edge_description": "Edge 5"
         }
     ]
 }
