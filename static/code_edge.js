@@ -37,7 +37,7 @@ for(index in nodes_list){
 	g.setNode(
 		nodes_list[index].id,
 		//{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: nodes_list[index].width, labelStyle: "font-size: 1em"}
-		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 200, labelStyle: "font-size: 0.80em"}
+		{label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 200, labelStyle: "font-size: 0.90em"}
 		//{label: nodes_list[index].name, class: "node", id: nodes_list[index].id}
 	);	
 }
@@ -60,6 +60,7 @@ for(index in edges_list){
 			curve: d3.curveBasis ,
 			id:String(edges_list[index].source)+"-"+String(edges_list[index].destination),
 			label: edges_list[index].label,
+			labelStyle: "font-size: 0.70em",
 			class: "edge",
 			height: 30,
 			width: 50
@@ -83,7 +84,7 @@ svg.attr("height", g.graph().height + 100);
 var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
 svgGroup.attr("transform", "translate(" + xCenterOffset + ", 50)");
 
-
+console.log(g)
 //console.log(g.graph().height);
 //console.log(svg.attr("height"));
 //console.log(svg.attr("width"));

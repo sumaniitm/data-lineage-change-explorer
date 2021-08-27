@@ -2,37 +2,37 @@
     "edges": [
         {
             "from_vertex_id": "cases",
-            "from_vertex_value": 166312,
+            "from_vertex_value": 1225567,
             "to_vertex_id": "mean_cases",
-            "edge_value": 2048,
+            "edge_value": 17240,
             "edge_description": "Edge 1"
         },
         {
             "from_vertex_id": "cases_sqrd",
-            "from_vertex_value": 1686120540,
+            "from_vertex_value": 41051753813,
             "to_vertex_id": "stddev_cases_sqrd",
-            "edge_value": 131298190,
+            "edge_value": 3155740959,
             "edge_description": "Edge 2"
         },
         {
             "from_vertex_id": "mean_cases",
-            "from_vertex_value": 2048,
+            "from_vertex_value": 17240,
             "to_vertex_id": "norm_cases",
-            "edge_value": 842,
+            "edge_value": 914,
             "edge_description": "Edge 3"
         },
         {
             "from_vertex_id": "stddev_cases_sqrd",
-            "from_vertex_value": 131298190,
+            "from_vertex_value": 3155740959,
             "to_vertex_id": "norm_cases",
-            "edge_value": 842,
+            "edge_value": 914,
             "edge_description": "Edge 4"
         },
         {
             "from_vertex_id": "norm_cases",
-            "from_vertex_value": 842,
+            "from_vertex_value": 914,
             "to_vertex_id": "log_norm_cases",
-            "edge_value": 59,
+            "edge_value": 60,
             "edge_description": "Edge 5"
         }
     ]

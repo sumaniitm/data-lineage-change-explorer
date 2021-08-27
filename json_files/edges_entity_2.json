@@ -2,37 +2,37 @@
     "edges": [
         {
             "from_vertex_id": "people_tested",
-            "from_vertex_value": 0,
+            "from_vertex_value": 19949662,
             "to_vertex_id": "mean_people_tested",
-            "edge_value": 0,
+            "edge_value": 242805,
             "edge_description": "Edge 1"
         },
         {
             "from_vertex_id": "people_tested_sqrd",
-            "from_vertex_value": 0,
+            "from_vertex_value": 9833559827246,
             "to_vertex_id": "stddev_people_tested_sqrd",
-            "edge_value": 0,
+            "edge_value": 625014772157,
             "edge_description": "Edge 2"
         },
         {
             "from_vertex_id": "mean_people_tested",
-            "from_vertex_value": 0,
+            "from_vertex_value": 242805,
             "to_vertex_id": "norm_people_tested",
-            "edge_value": 0,
+            "edge_value": 762,
             "edge_description": "Edge 3"
         },
         {
             "from_vertex_id": "stddev_people_tested_sqrd",
-            "from_vertex_value": 0,
+            "from_vertex_value": 625014772157,
             "to_vertex_id": "norm_people_tested",
-            "edge_value": 0,
+            "edge_value": 762,
             "edge_description": "Edge 4"
         },
         {
             "from_vertex_id": "norm_people_tested",
-            "from_vertex_value": 0,
+            "from_vertex_value": 762,
             "to_vertex_id": "log_norm_people_tested",
-            "edge_value": 0,
+            "edge_value": 57,
             "edge_description": "Edge 5"
         }
     ]
