@@ -11,7 +11,11 @@ Main landing page
 
 <img width="829" alt="gango3" src="https://user-images.githubusercontent.com/35261783/131540047-24a5ff7e-d9c5-421d-8774-412820cc274e.png">
 
-Final Output showing the changes in the source, transformations and destination of a data entity
+Intermediate page showing the list of entities (based on the users entries in config.txt), with navigation link
 
-<img width="999" alt="gango4" src="https://user-images.githubusercontent.com/35261783/131539857-c233e41c-fb74-42aa-a85f-a555032cb261.png">
+<img width="931" alt="gango6" src="https://user-images.githubusercontent.com/35261783/132115190-57c69031-e7d2-4d76-8a8d-656b26d012c0.png">
+
+Final Output showing the changes in the source, transformations and destination of the selected (from the intermediate page) data entity
+
+<img width="1777" alt="gango7" src="https://user-images.githubusercontent.com/35261783/132115214-9fde341b-7876-42db-a849-b37519292513.png">
 
