@@ -1,17 +1,23 @@
-import os
+"""
+This class implements the queue data structure.
+The enqueue method adds an element at the rear of the queue.
+The dequeue method removes an element from the front of the queue.
+The is_empty method checks if a queue is empty or not.
+"""
+
 import sys
-import json
 
 sys.path.append('.')
+
 
 class Queue:
     def __init__(self):
         self.queue = []
         
-    def enQueue(self, element):
+    def enqueue(self, element):
         self.queue.append(element)
         
-    def deQueue(self):
+    def dequeue(self):
         if self.queue:
             a = self.queue[0]
             self.queue.remove(a)
@@ -19,5 +25,5 @@ class Queue:
         else:
             print('Queue is empty')
         
-    def isEmpty(self):
+    def is_empty(self):
         return self.queue == []
