@@ -15,14 +15,14 @@
   </head>
   <body>
 
-    <div class="container-fluid">
-      <!--nav class="navbar navbar-expand-lg navbar-light bg-light"-->
-        <!--ul class="navbar-nav"-->
-          <li class="nav-item"><a href="{{ url_for('attributeLineage') }}" class="nav-link">domain object lineage</a></li>
-          <li class="nav-item"><a href="{{ url_for('attributeDeltaLineage') }}" class="nav-link">domain object values delta lineage</a></li>
-          <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Back to Home</a></li>
-      <!--/ul-->
-      <!--/nav-->
+    <div>
+      {%  block main %}
+        {% for rec in entity_list %}
+          <li class="nav-item"><a href="{{ url_for('attributeDeltaLineage',entity=rec ) }}" class="nav-link">Data changes along the lineage for <u>{{ rec }} </u></a></li>
+        {% endfor %}
+      {% endblock %}
+      <p></p>
+      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Back to Home</a></li>
     </div>
 
   </body>

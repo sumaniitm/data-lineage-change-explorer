@@ -113,13 +113,13 @@ class createGraph:
         for e in range(0,len(self.listOfLookupEdges)):
             frmLkp,toLkp,costLkp = self.listOfLookupEdges[e]
             frm,to,costCurr = self.listOfEdges[e]
-            print(costCurr)
-            print(costLkp)
+            #print(costCurr)
+            #print(costLkp)
             if costLkp != (0, 0):
                 cost = tuple(map(lambda i, j: round((i - j)/j, 3) if j != 0 else 0, costCurr, costLkp))
             else:
                 cost = (0, 0)
-            print(cost)
+            #print(cost)
             #print(cost)
             # keeping a track of the starting and ending vertices of the edges. Is this the most optimal storage ??
             if (self.listOfVertices.count(frm) == 0 or self.listOfVertices.count(to) == 0):

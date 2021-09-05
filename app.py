@@ -36,7 +36,7 @@ def home():
             del list_of_form_data['csrf_token']
             bj.buildedgejson(list_of_form_data, mode='Future')
             bj.buildedgejson(list_of_form_data, mode='Past')
-            return redirect(url_for('attributeDeltaLineage'))
+            return redirect(url_for('index'))
         else:
             flash('Incorrect Date input')
     return render_template('home.html', form=form, date_column_name=date_column_name)
@@ -47,9 +47,9 @@ def home():
 #totalNumOfNodes = len(lineage)
 
 
-#@app.route('/index')
-#def index():
-#    return render_template('index.html', lineage=lineage)
+@app.route('/index')
+def index():
+    return render_template('index.html', entity_list=entity_list)
 
 
 #@app.route('/attributeLineage')
@@ -57,22 +57,24 @@ def home():
 #    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList, totalNumOfNodes=totalNumOfNodes)
 
 
-@app.route('/attributeDeltaLineage')
-def attributeDeltaLineage():
+@app.route('/attributeDeltaLineage/<entity>', methods=['GET', 'POST'])
+def attributeDeltaLineage(entity):
     config = cp.ConfigParser()
+    print(entity)
     config.read('config.txt')
     deltaEdgeLineage = []
     lineage = []
     for i in range(number_of_entities):
-        jsonEdgeFileNameWithPath = """json_files/edges_entity_{0}.json""".format(i + 1)
-        jsonLookupFileNameWithPath = """json_files/lookupPast_entity_{0}.json""".format(i + 1)
-        vertexFileNameWithPath = """json_files/vertices_entity_{0}.json""".format(i + 1)
-        ddl = displayDataLineage(vertexJsonFile=vertexFileNameWithPath, edgeJsonFile=jsonEdgeFileNameWithPath, lookupJsonFile=jsonLookupFileNameWithPath)
-        deltaEdgeLineage.append(ddl.showDeltaLineage())
-        lineage.append(ddl.showAttributeLineage())
-    entity_nodes_edges = zip(entity_list, lineage, deltaEdgeLineage)
-    list_of_tuples = list(entity_nodes_edges)
-    return render_template('attributeDeltaLineage.html', list_of_tuples=list_of_tuples)
+        if entity == entity_list[i]:
+            jsonEdgeFileNameWithPath = """json_files/edges_entity_{0}.json""".format(i + 1)
+            jsonLookupFileNameWithPath = """json_files/lookupPast_entity_{0}.json""".format(i + 1)
+            vertexFileNameWithPath = """json_files/vertices_entity_{0}.json""".format(i + 1)
+            ddl = displayDataLineage(vertexJsonFile=vertexFileNameWithPath, edgeJsonFile=jsonEdgeFileNameWithPath, lookupJsonFile=jsonLookupFileNameWithPath)
+            deltaEdgeLineage.append(ddl.showDeltaLineage())
+            lineage.append(ddl.showAttributeLineage())
+    nodes_edges = zip(lineage, deltaEdgeLineage)
+    list_of_tuples = list(nodes_edges)
+    return render_template('attributeDeltaLineage.html', list_of_tuples=list_of_tuples, entity=entity)
 
 
 if __name__ == '__main__':

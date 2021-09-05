@@ -1,40 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
+
   <meta charset="utf-8">
-  <!--script src="https://d3js.org/d3.v5.js"></script-->
-  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3.v5.js"></script>
   <script src="https://dagrejs.github.io/project/dagre-d3/latest/dagre-d3.js"></script>
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 
   {%  block main %}
+
   {% for rec in list_of_tuples %}
 
   <div class="container-fluid">
-  <h4> Data changes along the lineage for the entity <u>{{ rec[0] }} </u></h4>
+  <h4> Data changes along the lineage for the entity <u>{{ entity }} </u></h4>
 
-  <svg id="svg-canvas" xmlns="http://www.w3.org/2000/svg"/></svg>
+  <svg id="entityGraph" ></svg>
 
   <script>
 
-    (function () {
+    var nodes_list = {{ rec[0]|tojson }};
+    var edges_list = {{ rec[1]|tojson }};
 
-    var nodes_list = {{ rec[1]|tojson }};
-    var edges_list = {{ rec[2]|tojson }};
-    console.log(nodes_list)
-    // Create the input graph
-    var grph = new dagreD3.graphlib.Graph()
+    var g = new dagreD3.graphlib.Graph()
       .setGraph({'align': 'UL', 'rankdir': 'RL', 'ranker': 'longest-path'})
       .setDefaultEdgeLabel(function() { return {}; });
 
+    // Here we're setting nodeclass, which is used by our custom drawNodes function
+    // below
+
     for(index in nodes_list){
-        grph.setNode(
+        g.setNode(
             nodes_list[index].id,
             {label: nodes_list[index].name, class: "node", id: nodes_list[index].id, height: 50, width: 200, labelStyle: "font-size: 0.90em"}
         );
     }
 
-    grph.nodes().forEach(function(v) {
-      var node = grph.node(v);
+    g.nodes().forEach(function(v) {
+      var node = g.node(v);
       // Round the corners of the nodes
       node.rx = node.ry = 5;
       //node.width = 180;
@@ -44,7 +46,7 @@
 
     for(index in edges_list){
         //temporarily switching it to check it out, revert it back.
-        grph.setEdge(
+        g.setEdge(
             edges_list[index].source,
             edges_list[index].destination,
             {
@@ -59,26 +61,26 @@
         );
     }
 
+    // Set up an SVG group so that we can translate the final graph.
+    //var svg = d3.selectAll("svg");
+    var svg = d3.selectAll("svg"),
+        inner = svg.selectAll("g");
+
     // Create the renderer
     var render = new dagreD3.render();
 
-    // Set up an SVG group so that we can translate the final graph.
-    var gid = Math.floor((Math.random() * 100) + 1);
-    var svg = d3.selectAll("svg");
-    svgGroup = svg.append("g").attr("data",grph).attr("id",gid);
-
     // Run the renderer. This is what draws the final graph.
-    render(d3.selectAll("svg g"), grph);
+    //render(d3.select("svg"), g);
+    render(svg, g);
 
     // Center the graph
-    svg.attr("width", grph.graph().width + 10);
-    svg.attr("height", grph.graph().height + 100);
-    var xCenterOffset = (svg.attr("width") - grph.graph().width) / 2;
-    svgGroup.attr("transform", "translate(" + xCenterOffset + ", 50)");
+    svg.attr("width", g.graph().width + 10);
+    svg.attr("height", g.graph().height + 200);
+    var xCenterOffset = (svg.attr("width") - g.graph().width) / 2;
+    //svgGroup.attr("transform", "translate(" + xCenterOffset + ", 50)");
+    svg.attr("transform", "translate(" + xCenterOffset + ", 100)");
 
-    console.log(grph)
 
-    })();
   </script>
 
   <!--script src="code_edge.js"></script-->
@@ -88,7 +90,7 @@
   {% endblock %}
 
 <div>
-      <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Back to Home</a></li>
+      <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link">Back to Entities</a></li>
 </div>
 
 </html>
