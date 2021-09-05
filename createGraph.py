@@ -16,7 +16,7 @@ from graph import Graph
 ##    j is the final value of the vertex j after all the transformations are applied (which can have contributions from other vertices as well)
 
 class createGraph:
-    def __init__(self, vertexJsonFile='vertices.json', edgeJsonFile='edges.json', lookupJsonFile='lookupPast.json'):
+    def __init__(self, vertexJsonFile='json_files/vertices.json', edgeJsonFile='json_files/edges.json', lookupJsonFile='json_files/lookupPast.json'):
         self.vertexJsonFile = vertexJsonFile
         self.edgeJsonFile = edgeJsonFile
         self.lookupJsonFile = lookupJsonFile
@@ -29,15 +29,15 @@ class createGraph:
         ## the edge values of a-c and b-c will be a^2 and b^2 respectively, while the vertex value of c will be a^2 + b^2 + 2ab
         ## the vertex value of a and b are a and b respectively
         
-        with open('vertices.json','r') as f:
+        with open(vertexJsonFile, 'r') as f:
             vertices_config = json.load(f)
     
         self.listOfVertices=[]
 
-        for i in range(0,len(vertices_config['vertices'])):
+        for i in range(0, len(vertices_config['vertices'])):
             self.listOfVertices.append(vertices_config['vertices'][i]['vertex_id'])
         
-        with open('edges.json','r') as f:
+        with open(edgeJsonFile, 'r') as f:
             edges_config = json.load(f)
             
         self.listOfEdges=[]
@@ -47,7 +47,7 @@ class createGraph:
             self.listOfEdges.append( (edges_config['edges'][i]['from_vertex_id'], edges_config['edges'][i]['to_vertex_id'], ( edges_config['edges'][i]['edge_value'], edges_config['edges'][i]['from_vertex_value'] ) ) )
             self.listOfEdgesToCompare.append( (edges_config['edges'][i]['from_vertex_id'], edges_config['edges'][i]['to_vertex_id']) )
         
-        with open('lookupPast.json','r') as f:
+        with open(lookupJsonFile, 'r') as f:
             lookup_config = json.load(f)
             
         self.listOfLookupEdges=[]
@@ -113,13 +113,13 @@ class createGraph:
         for e in range(0,len(self.listOfLookupEdges)):
             frmLkp,toLkp,costLkp = self.listOfLookupEdges[e]
             frm,to,costCurr = self.listOfEdges[e]
-            print(costCurr)
-            print(costLkp)
+            #print(costCurr)
+            #print(costLkp)
             if costLkp != (0, 0):
                 cost = tuple(map(lambda i, j: round((i - j)/j, 3) if j != 0 else 0, costCurr, costLkp))
             else:
                 cost = (0, 0)
-            print(cost)
+            #print(cost)
             #print(cost)
             # keeping a track of the starting and ending vertices of the edges. Is this the most optimal storage ??
             if (self.listOfVertices.count(frm) == 0 or self.listOfVertices.count(to) == 0):

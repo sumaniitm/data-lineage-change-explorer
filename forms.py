@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 from dbUtil import DbUtil
 import configparser as cp
 
+
 class LineageDates(FlaskForm):
     du = DbUtil()
     config = cp.ConfigParser()
@@ -19,13 +20,8 @@ class LineageDates(FlaskForm):
         else:
             choice.append('N/A')
             locals()['level_%s' % i] = SelectField(u'%s' % i, choices=choice, default='N/A')
-    #choice = du.getdropdowndata('report_date')
-    #level_report_date = SelectField(u'Report Date', choices=choice)
-    # lineagerequestedfordate = DateField('Lineage Requested For Date', validators=[DataRequired()])
-    # lineagecomparedwithdate = DateField('Lineage Compared with Date', validators=[DataRequired()])
 
 
 class LevelForm(FlaskForm):
-    """A form for one or more addresses"""
     levelnames = FieldList(FormField(LineageDates), min_entries=1)
     submit = SubmitField('Get Lineage')

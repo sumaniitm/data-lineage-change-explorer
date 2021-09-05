@@ -10,12 +10,12 @@ text-align:center;
 .container-fluid { background-color: rgb(217, 222, 229); text-align:center;}
 
 a{
-  color: black;
+  color: white;
   text-decoration: underline;
 }
 
 li {
-  color: black;
+  color: yellow;
   text-decoration: underline;
   list-style-type: none;
 }
@@ -31,4 +31,41 @@ li {
   border-radius: 3px;
   cursor: pointer;
   transition: ease .3s;
+}
+
+.node.selected{
+    fill: #00ffd0;
+  }
+
+text {
+font-weight: 300;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 10px;
+}
+
+.node rect {
+stroke: #999;
+fill: #fff;
+stroke-width: 2px;
+}
+
+.node rect{
+cursor: pointer;
+}
+
+.node rect text{
+cursor: pointer;
+}
+
+.edgePath path {
+stroke: #333;
+stroke-width: 2px;
+}
+
+.visible{
+opacity: 1 !important;
+}
+
+.invisible{
+opacity: 0 !important;
 }

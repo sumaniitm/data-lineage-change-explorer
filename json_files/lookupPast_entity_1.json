@@ -1,0 +1,39 @@
+{
+    "edges": [
+        {
+            "from_vertex_id": "cases",
+            "from_vertex_value": 19695,
+            "to_vertex_id": "mean_cases",
+            "edge_value": 227,
+            "edge_description": "Edge 1"
+        },
+        {
+            "from_vertex_id": "cases_sqrd",
+            "from_vertex_value": 30348017,
+            "to_vertex_id": "stddev_cases_sqrd",
+            "edge_value": 2475096,
+            "edge_description": "Edge 2"
+        },
+        {
+            "from_vertex_id": "mean_cases",
+            "from_vertex_value": 227,
+            "to_vertex_id": "norm_cases",
+            "edge_value": 835,
+            "edge_description": "Edge 3"
+        },
+        {
+            "from_vertex_id": "stddev_cases_sqrd",
+            "from_vertex_value": 2475096,
+            "to_vertex_id": "norm_cases",
+            "edge_value": 835,
+            "edge_description": "Edge 4"
+        },
+        {
+            "from_vertex_id": "norm_cases",
+            "from_vertex_value": 835,
+            "to_vertex_id": "log_norm_cases",
+            "edge_value": 58,
+            "edge_description": "Edge 5"
+        }
+    ]
+}

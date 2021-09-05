@@ -1,0 +1,28 @@
+{
+    "vertices": [
+        {
+            "vertex_id": "cases",
+            "vertex_description": "s_data.t_log_covid_cases_vs_tested"
+        },
+        {
+            "vertex_id": "cases_sqrd",
+            "vertex_description": "s_data.t_log_covid_cases_vs_tested"
+        },
+        {
+            "vertex_id": "log_norm_cases",
+            "vertex_description": "s_data.t_normalised_cases_vs_tested"
+        },
+        {
+            "vertex_id": "mean_cases",
+            "vertex_description": "s_data.t_log_covid_cases_vs_tested"
+        },
+        {
+            "vertex_id": "norm_cases",
+            "vertex_description": "s_data.t_normalised_cases_vs_tested"
+        },
+        {
+            "vertex_id": "stddev_cases_sqrd",
+            "vertex_description": "s_data.t_log_covid_cases_vs_tested"
+        }
+    ]
+}
