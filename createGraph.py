@@ -77,7 +77,7 @@ class createGraph:
         g = Graph(len(self.listOfVertices))
         # create the vertices of the graph
         for v in range(0,len(self.listOfVertices)):
-            g.setVertex(v,self.listOfVertices[v])
+            g.set_vertex(v,self.listOfVertices[v])
         # establish the edges
         fromDict=[]
         toDict=[]
@@ -93,7 +93,7 @@ class createGraph:
                 if (fromDict.count(to) > 0 and toDict.count(frm) > 0):
                     print("only directed graph is allowed, this edge won't be created")
                 else:
-                    g.addEdge(frm, to, cost)
+                    g.add_edge(frm, to, cost)
         #g.printMatrix()
         return g
         
@@ -105,7 +105,7 @@ class createGraph:
         gDelta = Graph(len(self.listOfVertices))
         # create the vertices of the graph
         for v in range(0,len(self.listOfVertices)):
-            gDelta.setVertex(v,self.listOfVertices[v])
+            gDelta.set_vertex(v,self.listOfVertices[v])
         # establish the edges
         fromDict=[]
         toDict=[]
@@ -131,6 +131,6 @@ class createGraph:
                 if (fromDict.count(to) > 0 and toDict.count(frm) > 0):
                     print("only directed graph is allowed, this edge won't be created")
                 else:
-                    gDelta.addEdge(frm, to, cost)
+                    gDelta.add_edge(frm, to, cost)
         #gDelta.printMatrix()
         return gDelta

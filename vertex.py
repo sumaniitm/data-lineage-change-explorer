@@ -1,10 +1,10 @@
 """
 This class implements the Vertices of a graph. It is initialized by passing the id of the vertex and by declaring a
 variable which denotes whether the vertex have already been visited during a search.
-The get_connection method accepts a graph and returns the adjacency list of the vertex in that graph
-The get_vertex_id method returns the id of the vertex
-The set_vertex_id method sets the id of the vertex
-Explicit call to __str__ ensures that the vertex id is represented as a string
+The get_connection method accepts a graph and returns the adjacency matrix of the vertex in that graph.
+The get_vertex_id method returns the id of the vertex.
+The set_vertex_id method sets the id of the vertex.
+Explicit call to __str__ ensures that the vertex id is represented as a string.
 """
 
 import sys

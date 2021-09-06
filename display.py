@@ -16,21 +16,21 @@ class displayDataLineage:
         
     def getRootAttribute(self):
         valueMatrix = self.cg.createValueMatrix()
-        for i in range(len(valueMatrix.getVertices())):
-            vtx = Vertex(valueMatrix.getVertex(valueMatrix.getVertices()[i]))
-            conn = vtx.getConnections(valueMatrix)
+        for i in range(len(valueMatrix.get_vertices())):
+            vtx = Vertex(valueMatrix.get_vertex(valueMatrix.get_vertices()[i]))
+            conn = vtx.get_connections(valueMatrix)
             if not any(conn):
-                #return valueMatrix.getVertices()[i]
+                #return valueMatrix.get_vertices()[i]
                 return i
     
     ## The data attributes will display as a result of BFS on the attributes graph            
     def showAttributeLineage(self):
         valueMatrix = self.cg.createValueMatrix()
         start = self.getRootAttribute()
-        BFSlist, BFSedgeList = valueMatrix.BFS(start)
+        BFSlist, BFSedgeList = valueMatrix.breadth_first_search(start)
         finalVertexList = []
         for i in range(len(BFSlist)):
-            finalVertexList.append({'name': valueMatrix.getVertices()[BFSlist[i]], 'id': BFSlist[i], 'width': len(valueMatrix.getVertices()[BFSlist[i]])})
+            finalVertexList.append({'name': valueMatrix.get_vertices()[BFSlist[i]], 'id': BFSlist[i], 'width': len(valueMatrix.get_vertices()[BFSlist[i]])})
         return finalVertexList
     
     ## The delta (percentages) will display as a result of BFS on the attributes graph
