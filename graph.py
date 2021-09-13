@@ -12,7 +12,14 @@ The get_vertices method returns a list of vertex ids of the vertices building th
 The get_edges method returns a list of the edges (along with their costs) between the vertices of the directed graph.
 print_matrix method is purely for debugging purpose and is not used anywhere else, it merely prints the adjacency
 matrix.
-
+The breadth_first_search method accepts the starting vertex as the input and traverses the directed graph in a breadth
+first manner and returns a list of the vertices and the edges (in terms of source and destination of an edge)
+in breadth first order. The method starts by transposing the adjacency matrix of the directed graph, then uses a queue
+to keep track of the visited vertices. For each visited vertex, it looks for the non-zero entries in the row
+corresponding to the vertex in the adjacency matrix to get the immediate neighbours of the vertex and then marks those
+as visited.
+The breadth_first_search_with_label method does the same as breadth_first_search but returns the cost of the
+edges as well, the percentage changes of the data entities are represented as the cost of the edges.
 """
 
 from vertex import Vertex
@@ -74,9 +81,9 @@ class Graph:
 
     def breadth_first_search(self, start):
         visited = [False] * self.number_of_vertices
-        BFSlist = []
-        BFSedgeList = []
-        adjMatrixTrans = [
+        bfs_list = []
+        bfs_edge_list = []
+        adj_matrix_trans = [
             [self.adjMatrix[j][i] for j in range(len(self.adjMatrix))] for i in range(len(self.adjMatrix[0]))
         ]
         q = Queue()
@@ -84,19 +91,19 @@ class Graph:
         visited[start] = True
         while not q.is_empty():
             vis = q.dequeue()
-            BFSlist.append(vis)
+            bfs_list.append(vis)
             for i in range(self.number_of_vertices):
-                if (adjMatrixTrans[vis][i] != 0) and (visited[i] is False):
+                if (adj_matrix_trans[vis][i] != 0) and (visited[i] is False):
                     q.enqueue(i)
                     visited[i] = True
-                    BFSedgeList.append({'source': i, 'destination': vis})
-        return BFSlist, BFSedgeList
+                    bfs_edge_list.append({'source': i, 'destination': vis})
+        return bfs_list, bfs_edge_list
         
-    def BFSwithLabel(self, start):
+    def breadth_first_search_with_label(self, start):
         visited = [False] * self.number_of_vertices
-        BFSlist = []
-        BFSedgeList = []
-        adjMatrixTrans = [
+        bfs_list = []
+        bfs_edge_list = []
+        adj_matrix_trans = [
             [self.adjMatrix[j][i] for j in range(len(self.adjMatrix))] for i in range(len(self.adjMatrix[0]))
         ]
         q = Queue()
@@ -104,10 +111,10 @@ class Graph:
         visited[start] = True
         while not q.is_empty():
             vis = q.dequeue()
-            BFSlist.append(vis)
+            bfs_list.append(vis)
             for i in range(self.number_of_vertices):
-                if ( adjMatrixTrans[vis][i] != 0 and ( visited[i] == False ) ):
+                if (adj_matrix_trans[vis][i] != 0) and ( visited[i] == False ):
                     q.enqueue(i)
                     visited[i] = True
-                    BFSedgeList.append({'source': i, 'destination': vis, 'label': str(adjMatrixTrans[vis][i])})
-        return BFSlist, BFSedgeList
+                    bfs_edge_list.append({'source': i, 'destination': vis, 'label': str(adj_matrix_trans[vis][i])})
+        return bfs_list, bfs_edge_list
