@@ -18,7 +18,7 @@
     <div>
       {%  block main %}
         {% for rec in entity_list %}
-          <li class="nav-item"><a href="{{ url_for('attributeDeltaLineage',entity=rec ) }}" class="nav-link">Data changes along the lineage for <u>{{ rec }} </u></a></li>
+          <li class="nav-item"><a href="{{ url_for('attribute_delta_lineage',entity=rec ) }}" class="nav-link">Data changes along the lineage for <u>{{ rec }} </u></a></li>
         {% endfor %}
       {% endblock %}
       <p></p>

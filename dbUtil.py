@@ -1,14 +1,16 @@
-import sys
-sys.path.append('.')
+"""
+This class is used to establish the db connection, retrieve the data required to populate the initial values in the
+dropdowns of the aggregation levels and the changes in the data entities based on the choice of the aggregation levels.
+"""
 
+import sys
 import sqlalchemy as sql
 import pandas as pd
 import os
 import imp
 import configparser as cp
-import json
-from pathlib import Path
-from datetime import date
+
+sys.path.append('.')
 
 class DbUtil:
     def __init__(self):
@@ -98,7 +100,8 @@ class DbUtil:
                     else:
                         whereclause = whereclause
 
-                query = """ select sum({0}) as {0} from {1} where {2} group by {3}""".format(fieldname, tablename, whereclause, groupby)
+                query = """ select sum({0}) as {0} from {1} where {2} group by {3}""".format(fieldname, tablename,
+                                                                                             whereclause, groupby)
 
         return query
 
@@ -128,11 +131,13 @@ class DbUtil:
             #print('successfully created tables')
             print("truncating the table1 before loading")
             dbconn.execute('truncate table s_data.t_covidCases')
-            os.system(f"sh dbUpload.sh 'localhost' 5432 'trackdatalineage' {self.username} {self.password} 's_data.t_covidCases' 'COVID19Cases.csv'")
+            os.system(f"sh dbUpload.sh 'localhost' 5432 'trackdatalineage' {self.username} {self.password} \
+            's_data.t_covidCases' 'COVID19Cases.csv'")
             print('table1 uploaded')
             print("truncating the table2 before loading")
             dbconn.execute('truncate table s_data.t_covidActivity')
-            os.system(f"sh dbUpload.sh 'localhost' 5432 'trackdatalineage' {self.username} {self.password} 's_data.t_covidActivity' 'COVID19Activity.csv'")
+            os.system(f"sh dbUpload.sh 'localhost' 5432 'trackdatalineage' {self.username} {self.password} \
+            's_data.t_covidActivity' 'COVID19Activity.csv'")
             print('table2 uploaded')
         else:
             print('retry')
