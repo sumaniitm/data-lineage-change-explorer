@@ -1,7 +1,12 @@
+"""
+This piece of code declares the main form class LineageDates, which is a collection of wtforms SelectFields. These
+hold the data of the dropdown for the various levels of aggregation. This collection is then used in the entry point
+of the flask app as a list of form fields, LevelForm
+"""
+
 from flask_wtf import FlaskForm, Form
 from wtforms import SubmitField, DateField, SelectField
 from wtforms.fields import FormField, FieldList
-from wtforms.validators import DataRequired
 from dbUtil import DbUtil
 import configparser as cp
 

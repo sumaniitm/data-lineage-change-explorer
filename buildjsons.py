@@ -1,3 +1,9 @@
+"""
+This class prepares and updates the vertex and edge json files respectively for all the entities defined in the config
+file. It uses the methods of the dbUtil object to connect to the database and fetch relevant data to update/create the
+json files.
+"""
+
 import sys
 import json
 from pathlib import Path
@@ -47,21 +53,21 @@ class BuildJsons:
             print('successfully connected to database, proceeding to create edge jsons for the defined entities')
             for i in range(int(number_of_entities)):
                 entity = 'query_for_entity_%s' % (i+1)
-                jsonEdgeFileNameWithPath = """json_files/edges_entity_{0}.json""".format(i+1)
-                jsonLookupFileNameWithPath = """json_files/lookupPast_entity_{0}.json""".format(i+1)
-                vertexFileNameWithPath = """json_files/vertices_entity_{0}.json""".format(i+1)
+                json_edge_file_name_with_path = """json_files/edges_entity_{0}.json""".format(i+1)
+                json_lookup_file_name_with_path = """json_files/lookupPast_entity_{0}.json""".format(i+1)
+                vertex_file_name_with_path = """json_files/vertices_entity_{0}.json""".format(i+1)
                 if mode == 'Future':
-                    with open(jsonEdgeFileNameWithPath, 'r') as f:
+                    with open(json_edge_file_name_with_path, 'r') as f:
                         edges_config = json.load(f)
                     f.close()
                 elif mode == 'Past':
-                    with open(jsonLookupFileNameWithPath, 'r') as f:
+                    with open(json_lookup_file_name_with_path, 'r') as f:
                         edges_config = json.load(f)
                     f.close()
                 else:
                     print('Incorrect input mode, will exit')
                     return
-                with open(vertexFileNameWithPath, 'r') as f:
+                with open(vertex_file_name_with_path, 'r') as f:
                     vertices_config = json.load(f)
                 for e in range(0, len(edges_config['edges'])):
                     from_vertex_id = edges_config['edges'][e]['from_vertex_id']
@@ -69,7 +75,14 @@ class BuildJsons:
                     for j in range(0, len(vertices_config['vertices'])):
                         if vertices_config['vertices'][j]['vertex_id'] == to_vertex_id:
                             if filter_col == 'date':
-                                query = db.preparesqlquery(tablename=vertices_config['vertices'][j]['vertex_description'], fieldname=to_vertex_id, datafor='edgejson', entity=entity, formdata=formdata, mode=mode)
+                                query = db.preparesqlquery(
+                                    tablename=vertices_config['vertices'][j]['vertex_description'],
+                                    fieldname=to_vertex_id,
+                                    datafor='edgejson',
+                                    entity=entity,
+                                    formdata=formdata,
+                                    mode=mode
+                                )
                                 print(query)
                             df = pd.read_sql_query(query, dbconn)
                             if df.shape[0] != 0:
@@ -79,7 +92,14 @@ class BuildJsons:
 
                         if vertices_config['vertices'][j]['vertex_id'] == from_vertex_id:
                             if filter_col == 'date':
-                                query = db.preparesqlquery(tablename=vertices_config['vertices'][j]['vertex_description'], fieldname=from_vertex_id, datafor='edgejson', entity=entity, formdata=formdata, mode=mode)
+                                query = db.preparesqlquery(
+                                    tablename=vertices_config['vertices'][j]['vertex_description'],
+                                    fieldname=from_vertex_id,
+                                    datafor='edgejson',
+                                    entity=entity,
+                                    formdata=formdata,
+                                    mode=mode
+                                )
                                 print(query)
                             df = pd.read_sql_query(query, dbconn)
                             if df.shape[0] != 0:

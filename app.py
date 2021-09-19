@@ -1,5 +1,13 @@
+"""
+This class acts as the entry point to the flask application. the home page is the main landing page where the user can
+see/choose the levels of aggregation as per the entries in the config.txt. Then comes the intermediate page which
+displays the navigable links to the lineage of the various data entities as defined in config.txt. Finally on clicking
+any of these navigable links from the intermediate page, the user is taken to the detailed page of the entity which
+displays the changes of the entity along its lineage
+"""
+
 from flask import Flask, render_template, url_for, redirect, flash, get_flashed_messages
-from display import displayDataLineage
+from display import DisplayDataLineage
 from dbUtil import DbUtil
 from buildjsons import BuildJsons
 import forms
@@ -14,18 +22,17 @@ app = Flask(__name__,
 app.config['SECRET_KEY'] = 'secret-key'
 print(__name__)
 
-#ddl = displayDataLineage()
 bj = BuildJsons()
 du = DbUtil()
 levels = du.levels.split(',')
 number_of_entities = int(du.number_of_entities)
 entity_list = du.entity_list.split(',')
 
+
 @app.route('/')
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     form = forms.LevelForm()
-    #list_of_form_data = {}
     date_column_name = du.date_column_name
     if form.is_submitted():
         if form.validate_on_submit():
@@ -42,37 +49,29 @@ def home():
     return render_template('home.html', form=form, date_column_name=date_column_name)
 
 
-#lineage, edgeList = ddl.showAttributeLineage()
-#deltaEdgeLineage = ddl.showDeltaLineage()
-#totalNumOfNodes = len(lineage)
-
-
 @app.route('/index')
 def index():
     return render_template('index.html', entity_list=entity_list)
 
 
-#@app.route('/attributeLineage')
-#def attributeLineage():
-#    return render_template('attributeLineage.html', lineage=lineage, edgeList=edgeList, totalNumOfNodes=totalNumOfNodes)
-
-
-@app.route('/attributeDeltaLineage/<entity>', methods=['GET', 'POST'])
-def attributeDeltaLineage(entity):
+@app.route('/attribute_delta_lineage/<entity>', methods=['GET', 'POST'])
+def attribute_delta_lineage(entity):
     config = cp.ConfigParser()
     print(entity)
     config.read('config.txt')
-    deltaEdgeLineage = []
+    delta_edge_lineage = []
     lineage = []
     for i in range(number_of_entities):
         if entity == entity_list[i]:
-            jsonEdgeFileNameWithPath = """json_files/edges_entity_{0}.json""".format(i + 1)
-            jsonLookupFileNameWithPath = """json_files/lookupPast_entity_{0}.json""".format(i + 1)
-            vertexFileNameWithPath = """json_files/vertices_entity_{0}.json""".format(i + 1)
-            ddl = displayDataLineage(vertexJsonFile=vertexFileNameWithPath, edgeJsonFile=jsonEdgeFileNameWithPath, lookupJsonFile=jsonLookupFileNameWithPath)
-            deltaEdgeLineage.append(ddl.showDeltaLineage())
-            lineage.append(ddl.showAttributeLineage())
-    nodes_edges = zip(lineage, deltaEdgeLineage)
+            json_edge_file_name_with_path = """json_files/edges_entity_{0}.json""".format(i + 1)
+            json_lookup_file_name_with_path = """json_files/lookupPast_entity_{0}.json""".format(i + 1)
+            vertex_file_name_with_path = """json_files/vertices_entity_{0}.json""".format(i + 1)
+            ddl = DisplayDataLineage(vertex_json_file=vertex_file_name_with_path,
+                                     edge_json_file=json_edge_file_name_with_path,
+                                     lookup_json_file=json_lookup_file_name_with_path)
+            delta_edge_lineage.append(ddl.show_delta_lineage())
+            lineage.append(ddl.show_attribute_lineage())
+    nodes_edges = zip(lineage, delta_edge_lineage)
     list_of_tuples = list(nodes_edges)
     return render_template('attributeDeltaLineage.html', list_of_tuples=list_of_tuples, entity=entity)
 
