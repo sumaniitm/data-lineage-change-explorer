@@ -27,7 +27,6 @@ class BuildJsons:
         dbconn = db.getdbconnection()
         # for snowflake
         # db = SnowflakeConnector
-        # snowflake_cursor = db.getdbconnection()
         if dbconn:
             print('successfully connected to database, proceeding to create vertex jsons for the defined entities')
             for i in range(int(number_of_entities)):
@@ -38,8 +37,7 @@ class BuildJsons:
                     return
                 df = pd.read_sql_query(query, dbconn)
                 # for snowflake
-                # snowflake_cursor.execute(query)
-                # df = snowflake_cursor.fetch_pandas_all()
+                # df = db.getdbconnection(query, warehouse_name=None, dict_mode=False)
                 json_dict = {"vertices": []}
                 for j in range(df.shape[0]):
                     json_dict['vertices'].append(

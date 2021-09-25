@@ -27,27 +27,28 @@ class SnowflakeConnector(BaseDbUtil):
         self.account = self.config.get('snowflake-details', 'integration_account')
         self.role = self.config.get('snowflake-details', 'integration_role')
         self.raw_schema = self.config.get('snowflake-details', 'integration_schema')
+        try:
+            self.snowflake_conn = snowflake.connector.connect(user=self.username,
+                                                              password=self.password,
+                                                              account=self.account,
+                                                              warehouse=self.warehouse,
+                                                              database=self.db_name,
+                                                              role=self.role,
+                                                              schema=self.raw_schema,
+                                                              validate_default_parameters=True)
+        except snowflake.connector.errors.DatabaseError as db_error:
+            print("db_error ", db_error)
+            if db_error.errno == 250001:
+                print("Invalid username/password, please re-enter username and password...")
+                return -1
+            else:
+                print("db_error ", db_error)
+                return -1
+        except Exception as ex:
+            print(ex)
+            raise
 
-    def getdbconnection(self):
-        snowflake_conn = snowflake.connector.connect(user=self.username,
-                                                     password=self.password,
-                                                     account=self.account,
-                                                     warehouse=self.warehouse,
-                                                     database=self.db_name,
-                                                     role=self.role,
-                                                     schema=self.raw_schema,
-                                                     validate_default_parameters=True
-                                                     )
-        # Create a cursor object.
-        snowflake_cursor = snowflake_conn.cursor()
-        # Execute a statement that will generate a result set.
-        #sql = "select * from t"
-        #cur.execute(sql)
-        # Fetch the result set from the cursor and deliver it as the Pandas DataFrame.
-        #df = cur.fetch_pandas_all()
-        return snowflake_cursor
-
-    def execute_query(self, query, warehouse_name=None, dict_mode=True, fetch_one=False):
+    def getdbconnection(self, query, warehouse_name=None, dict_mode=True, fetch_one=False):
         """
         :param query: str
         :param warehouse_name: str
@@ -68,7 +69,8 @@ class SnowflakeConnector(BaseDbUtil):
                     data = cur.fetchone()
                     return data
                 else:
-                    data = cur.fetchall()
+                    #data = cur.fetchall()
+                    data = cur.fetch_pandas_all()
                     return data
             except snowflake.connector.errors.ProgrammingError as error:
                 print(error)
