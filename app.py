@@ -8,7 +8,7 @@ displays the changes of the entity along its lineage
 
 from flask import Flask, render_template, url_for, redirect, flash, get_flashed_messages
 from display import DisplayDataLineage
-from dbUtil import DbUtil
+from baseDbUtil import BaseDbUtil
 from buildjsons import BuildJsons
 import forms
 import configparser as cp
@@ -23,7 +23,7 @@ app.config['SECRET_KEY'] = 'secret-key'
 print(__name__)
 
 bj = BuildJsons()
-du = DbUtil()
+du = BaseDbUtil()
 levels = du.levels.split(',')
 number_of_entities = int(du.number_of_entities)
 entity_list = du.entity_list.split(',')
