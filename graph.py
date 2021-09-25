@@ -23,7 +23,7 @@ edges as well, the percentage changes of the data entities are represented as th
 """
 
 from vertex import Vertex
-from queue import Queue
+from q import Queue
 import sys
 
 sys.path.append('.')
