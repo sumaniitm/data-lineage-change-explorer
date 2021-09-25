@@ -8,7 +8,8 @@ import sys
 import json
 from pathlib import Path
 import configparser as cp
-from dbUtil import DbUtil
+from postgresConnector import PostgresConnector
+from snowflakeConnector import SnowflakeConnector
 import pandas as pd
 
 sys.path.append('.')
@@ -21,8 +22,12 @@ class BuildJsons:
 
     def buildvertexjson(self):
         number_of_entities = self.config.get('entity-settings', 'number_of_entities')
-        db = DbUtil()
+        # change this as per the database being used
+        db = PostgresConnector()
         dbconn = db.getdbconnection()
+        # for snowflake
+        # db = SnowflakeConnector
+        # snowflake_cursor = db.getdbconnection()
         if dbconn:
             print('successfully connected to database, proceeding to create vertex jsons for the defined entities')
             for i in range(int(number_of_entities)):
@@ -32,6 +37,9 @@ class BuildJsons:
                     print("No query provided, can't build vertices, will exit")
                     return
                 df = pd.read_sql_query(query, dbconn)
+                # for snowflake
+                # snowflake_cursor.execute(query)
+                # df = snowflake_cursor.fetch_pandas_all()
                 json_dict = {"vertices": []}
                 for j in range(df.shape[0]):
                     json_dict['vertices'].append(
