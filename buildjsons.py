@@ -55,7 +55,7 @@ class BuildJsons:
     def buildedgejson(self, formdata={}, mode=None):
         number_of_entities = self.config.get('entity-settings', 'number_of_entities')
         filter_col = self.config.get('db-settings', 'filter')
-        db = DbUtil()
+        db = PostgresConnector()
         dbconn = db.getdbconnection()
         if dbconn:
             print('successfully connected to database, proceeding to create edge jsons for the defined entities')
