@@ -21,18 +21,17 @@ class SnowflakeConnector(BaseDbUtil):
         super().__init__()
         self.username = self.db_creds_module.snowflake_username()
         self.password = self.db_creds_module.snowflake_password()
-        self.server = self.config.get('db-settings', 'server')
-        self.dbname = self.config.get('db-settings', 'dbname')
-        self.warehouse = self.config.get('snowflake-details', 'integration_warehouse')
-        self.account = self.config.get('snowflake-details', 'integration_account')
-        self.role = self.config.get('snowflake-details', 'integration_role')
-        self.raw_schema = self.config.get('snowflake-details', 'integration_schema')
+        self.dbname = self.config.get('snowflake-details','snowflake_db_name')
+        self.warehouse = self.config.get('snowflake-details', 'snowflake_warehouse')
+        self.account = self.config.get('snowflake-details', 'snowflake_account')
+        self.role = self.config.get('snowflake-details', 'snowflake_role')
+        self.raw_schema = self.config.get('snowflake-details', 'snowflake_schema')
         try:
             self.snowflake_conn = snowflake.connector.connect(user=self.username,
                                                               password=self.password,
                                                               account=self.account,
                                                               warehouse=self.warehouse,
-                                                              database=self.db_name,
+                                                              database=self.dbname,
                                                               role=self.role,
                                                               schema=self.raw_schema,
                                                               validate_default_parameters=True)

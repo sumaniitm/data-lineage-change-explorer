@@ -26,7 +26,7 @@ class BuildJsons:
         db = PostgresConnector()
         dbconn = db.getdbconnection()
         # for snowflake
-        # db = SnowflakeConnector
+        # db = SnowflakeConnector()
         if dbconn:
             print('successfully connected to database, proceeding to create vertex jsons for the defined entities')
             for i in range(int(number_of_entities)):
@@ -55,6 +55,8 @@ class BuildJsons:
         filter_col = self.config.get('db-settings', 'filter')
         db = PostgresConnector()
         dbconn = db.getdbconnection()
+        # for snowflake
+        # db = SnowflakeConnector()
         if dbconn:
             print('successfully connected to database, proceeding to create edge jsons for the defined entities')
             for i in range(int(number_of_entities)):
@@ -91,6 +93,8 @@ class BuildJsons:
                                 )
                                 print(query)
                             df = pd.read_sql_query(query, dbconn)
+                            # for snowflake
+                            # df = db.getdbconnection(query, warehouse_name=None, dict_mode=False)
                             if df.shape[0] != 0:
                                 edges_config['edges'][e]['edge_value'] = int(df.values[0][0])
                             else:
@@ -108,6 +112,8 @@ class BuildJsons:
                                 )
                                 print(query)
                             df = pd.read_sql_query(query, dbconn)
+                            # for snowflake
+                            # df = db.getdbconnection(query, warehouse_name=None, dict_mode=False)
                             if df.shape[0] != 0:
                                 edges_config['edges'][e]['from_vertex_value'] = int(df.values[0][0])
                             else:

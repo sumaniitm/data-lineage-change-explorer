@@ -9,8 +9,16 @@ date_column_name = report_date
 [entity-settings]
 number_of_entities = 2
 entity_list = Covid Cases,People tested for Covid
-query_for_entity_1 = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_log_covid_cases_vs_tested','t_normalised_cases_vs_tested') and column_name in ('cases','cases_sqrd','mean_cases','stddev_cases_sqrd','norm_cases','log_norm_cases')
-query_for_entity_2 = select distinct column_name, table_schema||'.'||table_name as table_name from information_schema."columns" c where table_name in ('t_log_covid_cases_vs_tested','t_normalised_cases_vs_tested') and column_name in ('people_tested','people_tested_sqrd','mean_people_tested','stddev_people_tested_sqrd','norm_people_tested','log_norm_people_tested')
+query_for_entity_1 = select distinct lower(column_name) as column_name, lower(table_schema||'.'||table_name) as table_name from information_schema.columns c where lower(table_name) in ('t_log_covid_cases_vs_tested','t_normalised_cases_vs_tested') and lower(column_name) in ('cases','cases_sqrd','mean_cases','stddev_cases_sqrd','norm_cases','log_norm_cases')
+query_for_entity_2 = select distinct lower(column_name) as column_name, lower(table_schema||'.'||table_name) as table_name from information_schema.columns c where lower(table_name) in ('t_log_covid_cases_vs_tested','t_normalised_cases_vs_tested') and lower(column_name) in ('people_tested','people_tested_sqrd','mean_people_tested','stddev_people_tested_sqrd','norm_people_tested','log_norm_people_tested')
+[snowflake-details]
+snowflake_db_name = SNOWFLAKE_DB_NAME
+snowflake_warehouse = SNOWFLAKE_WH_NAME
+snowflake_account = snowflake.account
+snowflake_role = SNOWFLAKE_ROLE
+snowflake_file_stage = SNOWFLAKE_FILE_STAGE_NAME
+snowflake_file_format = SNOWFLAKE_FILE_FORMAT_NAME
+snowflake_schema = s_data
 [app-home]
 app_home_path = /Users/sumangangopadhyay/
 path_to_creds = data-lineage-change-explorer/credentials.cpython-38.pyc
