@@ -19,7 +19,37 @@ class BuildJsons:
     def __init__(self, db_mode='snowflake'):
         self.config = cp.ConfigParser()
         self.config.read('config.txt')
+        self.levels = self.config.get('db-settings', 'levels')
         self.db_mode = db_mode
+
+    def getdropdowndata(self, level=None):
+        list_of_levels = self.levels.split(',')
+        if self.db_mode == 'snowflake':
+            db = SnowflakeConnector()
+            resultset = []
+            if level is None:
+                print('no level is passed, will exit!')
+            elif level not in list_of_levels:
+                print('unrecognised level passed, will exit!')
+            else:
+                query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level, datafor='dropdown',
+                                             entity=None)
+                df = db.getdbconnection(query, warehouse_name=None, dict_mode=False)
+                resultset = df.iloc[:,0].tolist()
+        else:
+            db = PostgresConnector()
+            dbconn = db.getdbconnection()
+            resultset = []
+            if level is None:
+                print('no level is passed, will exit!')
+            elif level not in listOfLevels:
+                print('unrecognised level passed, will exit!')
+            else:
+                query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level, datafor='dropdown',
+                                             entity=None)
+                df = pd.read_sql_query(query, dbconn)
+                resultset = df.iloc[:, 0].tolist()
+        return resultset
 
     def buildvertexjson(self):
         number_of_entities = self.config.get('entity-settings', 'number_of_entities')

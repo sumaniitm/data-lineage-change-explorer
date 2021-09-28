@@ -96,20 +96,6 @@ class BaseDbUtil:
 
         return query
 
-    def getdropdowndata(self, level=None):
-        listOfLevels = self.levels.split(',')
-        dbconn = self.getdbconnection()
-        resultset = []
-        if level is None:
-            print('no level is passed, will exit!')
-        elif level not in listOfLevels:
-            print('unrecognised level passed, will exit!')
-        else:
-            query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level, datafor='dropdown', entity=None)
-            df = pd.read_sql_query(query, dbconn)
-            resultset = df.iloc[:,0].tolist()
-        return resultset
-
     ## This method won't be needed in an actual production scenario as loading data is not the focus of this application
     ## This method is present only to help by loading test data
     def loadindb(self):

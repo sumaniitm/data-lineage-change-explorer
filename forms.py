@@ -7,12 +7,12 @@ of the flask app as a list of form fields, LevelForm
 from flask_wtf import FlaskForm, Form
 from wtforms import SubmitField, DateField, SelectField
 from wtforms.fields import FormField, FieldList
-from baseDbUtil import BaseDbUtil
+from buildjsons import BuildJsons
 import configparser as cp
 
 
 class LineageDates(FlaskForm):
-    du = BaseDbUtil()
+    du = BuildJsons('snowflake')
     config = cp.ConfigParser()
     config.read('config.txt')
     date_column_name = config.get('db-settings', 'date_column_name')

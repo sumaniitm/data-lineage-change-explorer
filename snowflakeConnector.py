@@ -3,12 +3,6 @@ This class extends the base database utility class and is used to establish the 
 """
 
 import sys
-import sqlalchemy as sql
-from snowflake.sqlalchemy import URL
-import pandas as pd
-import os
-import imp
-import configparser as cp
 import snowflake.connector
 from snowflake.connector import DictCursor
 from baseDbUtil import BaseDbUtil
