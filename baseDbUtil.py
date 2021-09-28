@@ -4,15 +4,14 @@ dropdowns of the aggregation levels and the changes in the data entities based o
 """
 
 import sys
-import sqlalchemy as sql
-import pandas as pd
 import os
 import imp
 import configparser as cp
 
 sys.path.append('.')
 
-class DbUtil:
+
+class BaseDbUtil:
     def __init__(self):
         self.config = cp.ConfigParser()
         self.config.read('config.txt')
@@ -22,22 +21,12 @@ class DbUtil:
         self.app_home_path = "".join([self.app_home_path,self.path_to_creds])
         self.db_creds_module = imp.load_compiled("db_creds_module",self.app_home_path)
 
-        self.username = self.db_creds_module.username()
-        self.password = self.db_creds_module.password()
-        self.server = self.config.get('db-settings','server')
-        self.dbname = self.config.get('db-settings','dbname')
         self.filter = self.config.get('db-settings', 'filter')
         self.levels = self.config.get('db-settings', 'levels')
         self.hierarchy_table_name = self.config.get('db-settings', 'hierarchy_table_name')
         self.date_column_name = self.config.get('db-settings', 'date_column_name')
         self.entity_list = self.config.get('entity-settings', 'entity_list')
         self.number_of_entities = self.config.get('entity-settings', 'number_of_entities')
-
-    def getdbconnection(self):
-        conn_string = 'postgresql://{0}:{1}@{2}/{3}'.format(self.username,self.password,self.server,self.dbname)
-        engine = sql.create_engine(conn_string)
-        cnxn = engine.connect()
-        return cnxn
 
     # Create a method to get the drop down data and call this method in the app.py, then pass on the list in the html
     # This method should be callable for all the levels which the user can choose from
@@ -104,20 +93,6 @@ class DbUtil:
                                                                                              whereclause, groupby)
 
         return query
-
-    def getdropdowndata(self, level=None):
-        listOfLevels = self.levels.split(',')
-        dbconn = self.getdbconnection()
-        resultset = []
-        if level is None:
-            print('no level is passed, will exit!')
-        elif level not in listOfLevels:
-            print('unrecognised level passed, will exit!')
-        else:
-            query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level, datafor='dropdown', entity=None)
-            df = pd.read_sql_query(query, dbconn)
-            resultset = df.iloc[:,0].tolist()
-        return resultset
 
     ## This method won't be needed in an actual production scenario as loading data is not the focus of this application
     ## This method is present only to help by loading test data
