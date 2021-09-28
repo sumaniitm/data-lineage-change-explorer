@@ -22,7 +22,7 @@ app = Flask(__name__,
 app.config['SECRET_KEY'] = 'secret-key'
 print(__name__)
 
-bj = BuildJsons()
+bj = BuildJsons('snowflake')
 du = BaseDbUtil()
 levels = du.levels.split(',')
 number_of_entities = int(du.number_of_entities)
