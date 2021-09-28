@@ -32,7 +32,7 @@ class BuildJsons:
             elif level not in list_of_levels:
                 print('unrecognised level passed, will exit!')
             else:
-                query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level, datafor='dropdown',
+                query = db.preparesqlquery(tablename=db.hierarchy_table_name, fieldname=level, datafor='dropdown',
                                              entity=None)
                 df = db.getdbconnection(query, warehouse_name=None, dict_mode=False)
                 resultset = df.iloc[:,0].tolist()
@@ -42,10 +42,10 @@ class BuildJsons:
             resultset = []
             if level is None:
                 print('no level is passed, will exit!')
-            elif level not in listOfLevels:
+            elif level not in list_of_levels:
                 print('unrecognised level passed, will exit!')
             else:
-                query = self.preparesqlquery(tablename=self.hierarchy_table_name, fieldname=level, datafor='dropdown',
+                query = db.preparesqlquery(tablename=db.hierarchy_table_name, fieldname=level, datafor='dropdown',
                                              entity=None)
                 df = pd.read_sql_query(query, dbconn)
                 resultset = df.iloc[:, 0].tolist()
@@ -65,6 +65,7 @@ class BuildJsons:
                     print("No query provided, can't build vertices, will exit")
                     return
                 df = db.getdbconnection(query, warehouse_name=None, dict_mode=False)
+                df.columns = df.columns.str.lower()
                 json_dict = {"vertices": []}
                 for j in range(df.shape[0]):
                     json_dict['vertices'].append(
@@ -86,6 +87,7 @@ class BuildJsons:
                     print("No query provided, can't build vertices, will exit")
                     return
                 df = pd.read_sql_query(query, dbconn)
+                df.columns = df.columns.str.lower()
                 json_dict = {"vertices": []}
                 for j in range(df.shape[0]):
                     json_dict['vertices'].append(
@@ -160,10 +162,10 @@ class BuildJsons:
                                 edges_config['edges'][e]['from_vertex_value'] = 0
 
                         if mode == 'Future':
-                            with open(jsonEdgeFileNameWithPath, 'w') as f:
+                            with open(json_edge_file_name_with_path, 'w') as f:
                                 json.dump(edges_config, f, indent=4)
                         else:
-                            with open(jsonLookupFileNameWithPath, 'w') as f:
+                            with open(json_lookup_file_name_with_path, 'w') as f:
                                 json.dump(edges_config, f, indent=4)
         else:
             print('successfully connected to postgres database, \
@@ -227,8 +229,8 @@ class BuildJsons:
                                 edges_config['edges'][e]['from_vertex_value'] = 0
 
                         if mode == 'Future':
-                            with open(jsonEdgeFileNameWithPath, 'w') as f:
+                            with open(json_edge_file_name_with_path, 'w') as f:
                                 json.dump(edges_config, f, indent=4)
                         else:
-                            with open(jsonLookupFileNameWithPath, 'w') as f:
+                            with open(json_lookup_file_name_with_path, 'w') as f:
                                 json.dump(edges_config, f, indent=4)

@@ -4,8 +4,6 @@ dropdowns of the aggregation levels and the changes in the data entities based o
 """
 
 import sys
-import sqlalchemy as sql
-import pandas as pd
 import os
 import imp
 import configparser as cp
