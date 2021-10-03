@@ -22,7 +22,10 @@ app = Flask(__name__,
 app.config['SECRET_KEY'] = 'secret-key'
 print(__name__)
 
-bj = BuildJsons('snowflake')
+config = cp.ConfigParser()
+config.read('config.txt')
+database_to_connect = config.get('db-settings', 'database')
+bj = BuildJsons(database_to_connect)
 du = BaseDbUtil()
 levels = du.levels.split(',')
 number_of_entities = int(du.number_of_entities)
@@ -56,9 +59,7 @@ def index():
 
 @app.route('/attribute_delta_lineage/<entity>', methods=['GET', 'POST'])
 def attribute_delta_lineage(entity):
-    config = cp.ConfigParser()
     print(entity)
-    config.read('config.txt')
     delta_edge_lineage = []
     lineage = []
     for i in range(number_of_entities):

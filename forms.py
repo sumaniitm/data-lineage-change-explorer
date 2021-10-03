@@ -12,10 +12,11 @@ import configparser as cp
 
 
 class LineageDates(FlaskForm):
-    du = BuildJsons('snowflake')
     config = cp.ConfigParser()
     config.read('config.txt')
+    database_to_connect = config.get('db-settings', 'database')
     date_column_name = config.get('db-settings', 'date_column_name')
+    du = BuildJsons(database_to_connect)
     levels = du.levels.split(',')
     for i in levels:
         choice = du.getdropdowndata(i)

@@ -6,6 +6,7 @@ filter = date
 levels = report_date,country_region,province_state,iso2,iso3
 hierarchy_table_name = s_data.t_norm_covid_cases_by_date_5levels
 date_column_name = report_date
+database = postgres
 [entity-settings]
 number_of_entities = 2
 entity_list = Covid Cases,People tested for Covid
