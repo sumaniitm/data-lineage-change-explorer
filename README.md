@@ -1,6 +1,10 @@
 # Explore changes along the lineage of a data entity
 
-The main branch of this repo will hold the base working application which can work standalone to visualize the quality/drift of the data entities across their lineage
+The main branch of this repo will hold the base working application which can work standalone to visualize the quality/drift of the data entities across their lineage.
+The current version of the docker image can be found in
+https://hub.docker.com/layers/171284147/sumaniitm/data_lineage_change_explorer/v0_1/images/sha256-72b925fcfbe83ba1aaa6cd1970ff4a193f4f314f80d1fb0eb3bef8d7ab63ca68?context=repo
+
+The image is tested to be working on a Macbook Pro with PostgreSQL installed locally
 
 However, since the core of this work is based on breadth first search of the nodes of a directed graph, overlapping edges emanating from & descending on multiple nodes will not be displayed
 This is needed to allow a clear view of the edge levels showing the percentage difference in the data
