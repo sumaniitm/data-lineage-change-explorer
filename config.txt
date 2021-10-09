@@ -1,5 +1,5 @@
 [db-settings]
-server = localhost
+server = host.docker.internal
 dbname = trackdatalineage
 schema = s_data
 filter = date
@@ -21,5 +21,5 @@ snowflake_file_stage = SNOWFLAKE_FILE_STAGE_NAME
 snowflake_file_format = SNOWFLAKE_FILE_FORMAT_NAME
 snowflake_schema = s_data
 [app-home]
-app_home_path = /Users/sumangangopadhyay/
-path_to_creds = data-lineage-change-explorer/credentials.cpython-38.pyc
+app_home_path =
+path_to_creds = /data-lineage-change-explorer/credentials.cpython-38.pyc
