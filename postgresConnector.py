@@ -18,7 +18,7 @@ class PostgresConnector(BaseDbUtil):
         self.dbname = self.config.get('db-settings', 'dbname')
 
     def getdbconnection(self):
-        conn_string = 'postgresql://{0}:{1}@{2}/{3}'.format(self.username,self.password,self.server,self.dbname)
+        conn_string = 'postgresql://{0}:{1}@{2}/{3}'.format(self.username, self.password, self.server, self.dbname)
         engine = sql.create_engine(conn_string)
         cnxn = engine.connect()
         return cnxn
