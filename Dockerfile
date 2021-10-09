@@ -1,14 +1,15 @@
+# syntax=docker/dockerfile:1
 FROM ubuntu:18.04
-FROM python:3
+FROM python:3.8-slim-buster
 
 LABEL maintainer="Suman Gangopadhyay <ganguly.04@gmail.com>"
 
-COPY ./requirements.txt /data-lineage-change-explorer/requirements.txt
-
 WORKDIR /data-lineage-change-explorer
+
+COPY requirements.txt requirements.txt
 
 RUN pip3 install -r requirements.txt
 
-COPY . /data-lineage-change-explorer
+COPY . .
 
-CMD [ "python3", "app.py" ]
+CMD [ "python3", "app.py", "--host=0.0.0.0" ]
