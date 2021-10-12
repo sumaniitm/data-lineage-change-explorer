@@ -10,8 +10,19 @@
   {%  block main %}
 
   {% for rec in list_of_tuples %}
-  <div> Aggregations done at the levels {{ list_of_form_data }} </div>
-  <br>
+
+  <div class="container-fluid">
+    <h4> Aggregations done based on the following </h4>
+    <br>
+      {% for key, value in list_of_form_data.items() %}
+      <li>
+          <td> {{ key }} = {{ value }} </td>
+      </li>
+      {% endfor %}
+  </div>
+  <p></p>
+  <p></p>
+
   <div class="container-fluid">
   <h4> Data changes along the lineage for the entity <u>{{ entity }} </u></h4>
 
