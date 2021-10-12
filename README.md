@@ -2,7 +2,7 @@
 
 The main branch of this repo will hold the base working application which can work standalone to visualize the quality/drift of the data entities across their lineage.
 The current version of the docker image can be found in
-https://hub.docker.com/layers/171284147/sumaniitm/data_lineage_change_explorer/v0_1/images/sha256-72b925fcfbe83ba1aaa6cd1970ff4a193f4f314f80d1fb0eb3bef8d7ab63ca68?context=repo
+https://hub.docker.com/layers/171555045/sumaniitm/data_lineage_change_explorer/v0_2/images/sha256-304f77592cd3705b5198dad3ff058cc0a7d6e469b83fa8491639bbc5d3aaa2f8?context=repo
 
 The image is tested to be working on a Macbook Pro with PostgreSQL installed locally
 
