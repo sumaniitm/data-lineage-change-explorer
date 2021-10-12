@@ -10,7 +10,8 @@
   {%  block main %}
 
   {% for rec in list_of_tuples %}
-
+  <div> Aggregations done at the levels {{ list_of_form_data }} </div>
+  <br>
   <div class="container-fluid">
   <h4> Data changes along the lineage for the entity <u>{{ entity }} </u></h4>
 
@@ -90,7 +91,7 @@
   {% endblock %}
 
 <div>
-      <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link">Back to Entities</a></li>
+      <li class="nav-item"><a href="{{ url_for('index', list_of_form_data=list_of_form_data) }}" class="nav-link">Back to Entities</a></li>
 </div>
 
 </html>
