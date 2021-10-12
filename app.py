@@ -3,15 +3,16 @@ This class acts as the entry point to the flask application. the home page is th
 see/choose the levels of aggregation as per the entries in the config.txt. Then comes the intermediate page which
 displays the navigable links to the lineage of the various data entities as defined in config.txt. Finally on clicking
 any of these navigable links from the intermediate page, the user is taken to the detailed page of the entity which
-displays the changes of the entity along its lineage
+displays the changes of the entity along its lineage. The form data is passed from home page to index to the final page
 """
 
-from flask import Flask, render_template, url_for, redirect, flash, get_flashed_messages
+from flask import Flask, render_template, url_for, redirect, flash, get_flashed_messages, request
 from display import DisplayDataLineage
 from baseDbUtil import BaseDbUtil
 from buildjsons import BuildJsons
 import forms
 import configparser as cp
+import ast
 
 app = Flask(__name__,
             static_url_path='',
@@ -46,15 +47,17 @@ def home():
             del list_of_form_data['csrf_token']
             bj.buildedgejson(list_of_form_data, mode='Future')
             bj.buildedgejson(list_of_form_data, mode='Past')
-            return redirect(url_for('index'))
+            list_of_form_data = {k.replace('level_', ''): v.replace('level_', '') for k, v in list_of_form_data.items()}
+            return redirect(url_for('index', list_of_form_data=list_of_form_data))
         else:
             flash('Incorrect Date input')
     return render_template('home.html', form=form, date_column_name=date_column_name)
 
 
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', entity_list=entity_list)
+    return render_template('index.html', entity_list=entity_list
+                           , list_of_form_data=ast.literal_eval(request.args.get('list_of_form_data')))
 
 
 @app.route('/attribute_delta_lineage/<entity>', methods=['GET', 'POST'])
@@ -74,7 +77,8 @@ def attribute_delta_lineage(entity):
             lineage.append(ddl.show_attribute_lineage())
     nodes_edges = zip(lineage, delta_edge_lineage)
     list_of_tuples = list(nodes_edges)
-    return render_template('attributeDeltaLineage.html', list_of_tuples=list_of_tuples, entity=entity)
+    return render_template('attributeDeltaLineage.html', list_of_tuples=list_of_tuples, entity=entity
+                           , list_of_form_data=ast.literal_eval(request.args.get('list_of_form_data')))
 
 
 if __name__ == '__main__':

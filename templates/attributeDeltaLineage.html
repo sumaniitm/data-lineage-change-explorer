@@ -12,6 +12,18 @@
   {% for rec in list_of_tuples %}
 
   <div class="container-fluid">
+    <h4> Aggregations done based on the following </h4>
+    <br>
+      {% for key, value in list_of_form_data.items() %}
+      <li>
+          <td> {{ key }} = {{ value }} </td>
+      </li>
+      {% endfor %}
+  </div>
+  <p></p>
+  <p></p>
+
+  <div class="container-fluid">
   <h4> Data changes along the lineage for the entity <u>{{ entity }} </u></h4>
 
   <svg id="entityGraph" ></svg>
@@ -90,7 +102,7 @@
   {% endblock %}
 
 <div>
-      <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link">Back to Entities</a></li>
+      <li class="nav-item"><a href="{{ url_for('index', list_of_form_data=list_of_form_data) }}" class="nav-link">Back to Entities</a></li>
 </div>
 
 </html>
