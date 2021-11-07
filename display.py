@@ -41,3 +41,9 @@ class DisplayDataLineage:
         start = self.get_root_attribute()
         bfs_list, bfs_edge_list_with_label = delta_matrix.breadth_first_search_with_label(start)
         return bfs_edge_list_with_label
+
+    def delta_lineage_api(self):
+        delta_matrix = self.cg.create_delta_matrix()
+        start = self.get_root_attribute()
+        bfs_list, bfs_edge_list_with_label = delta_matrix.breadth_first_search_for_api(start)
+        return bfs_edge_list_with_label

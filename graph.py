@@ -113,8 +113,31 @@ class Graph:
             vis = q.dequeue()
             bfs_list.append(vis)
             for i in range(self.number_of_vertices):
-                if (adj_matrix_trans[vis][i] != 0) and ( visited[i] == False ):
+                if (adj_matrix_trans[vis][i] != 0) and (visited[i] is False):
                     q.enqueue(i)
                     visited[i] = True
                     bfs_edge_list.append({'source': i, 'destination': vis, 'label': str(adj_matrix_trans[vis][i])})
         return bfs_list, bfs_edge_list
+
+    def breadth_first_search_for_api(self, start):
+        visited = [False] * self.number_of_vertices
+        bfs_list = []
+        bfs_edge_list = []
+        adj_matrix_trans = [
+            [self.adjMatrix[j][i] for j in range(len(self.adjMatrix))] for i in range(len(self.adjMatrix[0]))
+        ]
+        q = Queue()
+        q.enqueue(start)
+        visited[start] = True
+        while not q.is_empty():
+            vis = q.dequeue()
+            bfs_list.append(vis)
+            for i in range(self.number_of_vertices):
+                if (adj_matrix_trans[vis][i] != 0) and (visited[i] is False):
+                    q.enqueue(i)
+                    visited[i] = True
+                    bfs_edge_list.append({'source': self.get_vertices()[i], 'destination': self.get_vertices()[vis],
+                                          'deltas': str(adj_matrix_trans[vis][i])})
+        return bfs_list, bfs_edge_list
+
+
